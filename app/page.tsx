@@ -443,6 +443,7 @@ function Workbench({
             <div><span><strong>{item.evidence.length}</strong> items normalized</span><b>{result.missing.length ? `${result.missing.length} required missing` : "Required set complete"}</b></div>
             <div className="progress-track"><i style={{ width: result.missing.length ? "68%" : "100%" }} /></div>
           </div>
+          <p className="evidence-note"><Icon name="info" /> Reliability scores are transparent demo inputs—not AI certainty.</p>
           <div className="evidence-list">
             {item.evidence.map((evidence) => (
               <button key={evidence.id} onClick={() => setActiveEvidence(evidence.id)} className={activeEvidence === evidence.id ? "active" : ""}>
@@ -458,7 +459,7 @@ function Workbench({
             <div className="provenance-row">
               <span><small>Source</small><strong>{selected.source}</strong></span>
               <span><small>Supports</small><strong>{selected.supports}</strong></span>
-              <span><small>Reliability</small><strong>{Math.round(selected.reliability * 100)} / 100</strong></span>
+              <span><small>Demo reliability</small><strong>{Math.round(selected.reliability * 100)} / 100</strong></span>
               <span><small>Lineage</small><strong><Icon name="lock" /> Source linked</strong></span>
             </div>
           </div>
@@ -482,7 +483,7 @@ function Workbench({
           <h2>{formatOutcome(result.outcome)}</h2>
           <p className="decision-copy">{result.rationale}</p>
           <div className="confidence">
-            <div><span>Decision confidence</span><strong>{result.confidence}%</strong></div>
+            <div><span>Evidence sufficiency</span><strong>{result.confidence}%</strong></div>
             <div className="confidence-track"><i style={{ width: `${result.confidence}%` }} /></div>
           </div>
           <div className="balance">
@@ -521,7 +522,7 @@ function Workbench({
               <span><small>Rule</small><strong>{result.ruleVersion}</strong></span>
               <span><small>Generated</small><strong>Deterministic demo</strong></span>
             </div>
-            <div className="receipt-outcome"><span><Icon name={result.outcome === "human_escalation" ? "usercheck" : "check"} /></span><div><small>Recommended resolution</small><h2 id="receipt-title">{formatOutcome(result.outcome)}</h2><p>{result.rationale}</p></div><strong>{result.confidence}%<small>confidence</small></strong></div>
+            <div className="receipt-outcome"><span><Icon name={result.outcome === "human_escalation" ? "usercheck" : "check"} /></span><div><small>Recommended resolution</small><h2 id="receipt-title">{formatOutcome(result.outcome)}</h2><p>{result.rationale}</p></div><strong>{result.confidence}%<small>evidence score</small></strong></div>
             <div className="receipt-columns">
               <div><h3>Decisive evidence</h3>{result.decisiveEvidence.map((id) => {
                 const evidence = item.evidence.find((entry) => entry.id === id);
