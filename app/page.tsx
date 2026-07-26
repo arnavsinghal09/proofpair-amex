@@ -18,20 +18,22 @@ type Page = "overview" | "cases" | "workbench" | "fairness" | "audit";
 type Role = "Analyst" | "Card Member" | "Merchant";
 
 const NAV: Array<{ id: Page; label: string; icon: string }> = [
-  { id: "overview", label: "Command center", icon: "grid" },
-  { id: "cases", label: "Dispute queue", icon: "inbox" },
-  { id: "workbench", label: "Resolution studio", icon: "spark" },
-  { id: "fairness", label: "Fairness lab", icon: "scale" },
-  { id: "audit", label: "Audit & controls", icon: "shield" },
+  { id: "overview", label: "Home", icon: "grid" },
+  { id: "cases", label: "All disputes", icon: "inbox" },
+  { id: "workbench", label: "Review a dispute", icon: "spark" },
+  { id: "fairness", label: "Fairness checks", icon: "scale" },
+  { id: "audit", label: "Decision history", icon: "shield" },
 ];
 
 export default function Home() {
-  const [page, setPage] = useState<Page>("workbench");
+  const [page, setPage] = useState<Page>("overview");
   const [role, setRole] = useState<Role>("Analyst");
   const [caseId, setCaseId] = useState("DP-20841");
   const [toast, setToast] = useState("");
   const [simulated, setSimulated] = useState<Evaluation | null>(null);
   const [uploads, setUploads] = useState<Record<string, Evidence[]>>({});
+  const [guided, setGuided] = useState(false);
+  const [guideStep, setGuideStep] = useState(1);
 
   const baseCase = CASES.find((item) => item.id === caseId) ?? CASES[0];
   const selectedCase = useMemo(
@@ -49,6 +51,14 @@ export default function Home() {
   function chooseCase(nextId: string) {
     setCaseId(nextId);
     setSimulated(null);
+    setPage("workbench");
+  }
+
+  function startGuide() {
+    setCaseId("DP-20841");
+    setSimulated(null);
+    setGuideStep(1);
+    setGuided(true);
     setPage("workbench");
   }
 
@@ -96,7 +106,7 @@ export default function Home() {
         </div>
 
         <nav className="primary-nav" aria-label="Primary navigation">
-          <p className="nav-label">Workspace</p>
+          <p className="nav-label">Get around</p>
           {NAV.map((item) => (
             <button
               className={page === item.id ? "nav-item active" : "nav-item"}
@@ -111,7 +121,7 @@ export default function Home() {
         </nav>
 
         <div className="sidebar-rule" />
-        <p className="nav-label">Active rule packs</p>
+        <p className="nav-label">Reason codes</p>
         <div className="rule-stack">
           {Object.entries(REASON_CODES).map(([code, rule]) => (
             <button key={code} onClick={() => {
@@ -128,7 +138,7 @@ export default function Home() {
         <div className="sidebar-footer">
           <div className="system-status">
             <span className="pulse" />
-            <div><strong>All controls active</strong><small>Rules PP-v1.0 · Demo data</small></div>
+            <div><strong>Demo ready</strong><small>Rules PP-v1.0 · Synthetic data</small></div>
           </div>
           <button className="user-card">
             <span className="avatar">AS</span>
@@ -146,9 +156,10 @@ export default function Home() {
             <strong>{NAV.find((item) => item.id === page)?.label}</strong>
           </div>
           <div className="top-actions">
-            <div className="demo-pill"><Icon name="beaker" /> Deterministic demo</div>
+            <div className="demo-pill"><Icon name="beaker" /> Safe demo data</div>
             <div className="role-switch">
               <Icon name="user" />
+              <span>Viewing as</span>
               <select value={role} onChange={(event) => setRole(event.target.value as Role)} aria-label="Switch persona">
                 <option>Analyst</option>
                 <option>Card Member</option>
@@ -160,7 +171,7 @@ export default function Home() {
         </header>
 
         <div className="page-wrap">
-          {page === "overview" && <Overview metrics={metrics} chooseCase={chooseCase} />}
+          {page === "overview" && <Overview metrics={metrics} chooseCase={chooseCase} startGuide={startGuide} />}
           {page === "cases" && <CaseQueue chooseCase={chooseCase} />}
           {page === "workbench" && (
             <Workbench
@@ -172,6 +183,10 @@ export default function Home() {
               onNotify={notify}
               chooseCase={chooseCase}
               onAddEvidence={addEvidence}
+              guided={guided}
+              guideStep={guideStep}
+              onGuideStep={setGuideStep}
+              onGuideExit={() => setGuided(false)}
             />
           )}
           {page === "fairness" && <FairnessLab item={selectedCase} chooseCase={chooseCase} />}
@@ -183,15 +198,37 @@ export default function Home() {
   );
 }
 
-function Overview({ metrics, chooseCase }: { metrics: ReturnType<typeof operationsMetrics>; chooseCase: (id: string) => void }) {
+function Overview({ metrics, chooseCase, startGuide }: { metrics: ReturnType<typeof operationsMetrics>; chooseCase: (id: string) => void; startGuide: () => void }) {
   return (
     <>
       <PageHeading
-        eyebrow="Operations intelligence"
-        title="Resolution command center"
-        description="A single, explainable view of every dispute—before time, evidence, or trust is lost."
-        actions={<button className="primary-button" onClick={() => chooseCase("DP-20841")}><Icon name="spark" /> Open priority case</button>}
+        eyebrow="Welcome to ProofPair"
+        title="Resolve disputes with less guesswork"
+        description="Compare both sides, spot missing evidence, and understand every recommendation before anyone acts."
+        actions={<button className="secondary-button" onClick={() => chooseCase("DP-20841")}><Icon name="spark" /> Skip to a case</button>}
       />
+      <section className="welcome-panel">
+        <div className="welcome-copy">
+          <span className="welcome-badge"><Icon name="play" /> 90-second walkthrough</span>
+          <h2>Your first dispute, explained step by step.</h2>
+          <p>We’ll guide you through one non-delivery case—what each side submitted, what conflicts, and why the recommendation is safe to review.</p>
+          <button className="welcome-button" onClick={startGuide}>Start guided review <Icon name="arrow" /></button>
+        </div>
+        <div className="journey-preview">
+          {[
+            ["01", "Understand the case", "See the claim in plain language"],
+            ["02", "Compare both sides", "Inspect evidence and conflicts"],
+            ["03", "Review the outcome", "See the rule trace and next step"],
+          ].map((step, index) => (
+            <div key={step[0]} className={index === 0 ? "active" : ""}>
+              <span>{step[0]}</span>
+              <div><strong>{step[1]}</strong><small>{step[2]}</small></div>
+              {index < 2 && <i />}
+            </div>
+          ))}
+        </div>
+      </section>
+      <div className="section-intro"><div><span>Live workspace</span><h2>Today at a glance</h2></div><p>All figures below are synthetic demonstration metrics.</p></div>
       <section className="metric-grid">
         <Metric label="Open disputes" value="148" delta="↓ 12.4%" detail="vs. prior 7 days" tone="blue" />
         <Metric label="Evidence-complete" value="81%" delta="↑ 9.2%" detail="first response" tone="green" />
@@ -239,9 +276,9 @@ function CaseQueue({ chooseCase }: { chooseCase: (id: string) => void }) {
   return (
     <>
       <PageHeading
-        eyebrow="Case operations"
-        title="Dispute queue"
-        description="Six representative cases spanning five non-fraud reason codes and three resolution outcomes."
+        eyebrow="Cases to review"
+        title="All disputes"
+        description="Start with the deadline, evidence status, or plain-language reason—then open a case when you’re ready."
         actions={<button className="secondary-button"><Icon name="download" /> Export queue</button>}
       />
       <section className="card queue-card">
@@ -289,6 +326,10 @@ function Workbench({
   onNotify,
   chooseCase,
   onAddEvidence,
+  guided,
+  guideStep,
+  onGuideStep,
+  onGuideExit,
 }: {
   item: DisputeCase;
   result: Evaluation;
@@ -298,18 +339,62 @@ function Workbench({
   onNotify: (message: string) => void;
   chooseCase: (id: string) => void;
   onAddEvidence: (file: File) => Promise<void>;
+  guided: boolean;
+  guideStep: number;
+  onGuideStep: (step: number) => void;
+  onGuideExit: () => void;
 }) {
   const [activeEvidence, setActiveEvidence] = useState(item.evidence[3]?.id ?? item.evidence[0].id);
   const [tab, setTab] = useState("Evidence graph");
   const [receiptOpen, setReceiptOpen] = useState(false);
   const selected = item.evidence.find((evidence) => evidence.id === activeEvidence) ?? item.evidence[0];
   const rule = REASON_CODES[item.code];
+  const guideCopy = [
+    {
+      title: "First, understand what happened",
+      copy: "This summary gives you the amount, reason, deadline, and both parties before you inspect any details.",
+      action: "Show me the evidence",
+    },
+    {
+      title: "Now compare both sides",
+      copy: "Select any evidence card to see where it came from, whom it supports, and how reliable it is in this demo.",
+      action: "Explain the rule checks",
+    },
+    {
+      title: "Finally, understand the recommendation",
+      copy: "The rule trace shows every gate. Nothing is sent automatically; you can open the receipt or escalate.",
+      action: "Open the receipt",
+    },
+  ][guideStep - 1];
+
+  function advanceGuide() {
+    if (guideStep === 1) {
+      setActiveEvidence(item.evidence.find((evidence) => evidence.type === "carrier_delivery")?.id ?? item.evidence[0].id);
+      onGuideStep(2);
+    } else if (guideStep === 2) {
+      setTab("Rule trace");
+      onGuideStep(3);
+    } else {
+      setReceiptOpen(true);
+      onGuideExit();
+    }
+  }
 
   return (
     <>
+      {guided && guideCopy && (
+        <section className="guide-coach">
+          <div className="guide-progress">
+            <span>{guideStep}</span>
+            <div><small>Guided review</small><strong>Step {guideStep} of 3</strong></div>
+          </div>
+          <div className="guide-message"><h2>{guideCopy.title}</h2><p>{guideCopy.copy}</p></div>
+          <div className="guide-actions"><button onClick={onGuideExit}>Exit guide</button><button onClick={advanceGuide}>{guideCopy.action} <Icon name="arrow" /></button></div>
+        </section>
+      )}
       <div className="case-heading">
         <div>
-          <div className="eyebrow-row"><span>Resolution studio</span><i />{item.id}</div>
+          <div className="eyebrow-row"><span>Review a dispute</span><i />{item.id}</div>
           <h1>{item.merchant} <span>vs.</span> {item.member}</h1>
           <p>{item.narrative}</p>
         </div>
@@ -380,7 +465,7 @@ function Workbench({
         </section>
 
         <section className="card reasoning-panel">
-          <div className="panel-title"><div><span className="step-number">02</span><h2>Rule-grounded analysis</h2></div><span className="version-badge">{result.ruleVersion}</span></div>
+          <div className="panel-title"><div><span className="step-number">02</span><h2>Why this decision?</h2></div><span className="version-badge">{result.ruleVersion}</span></div>
           <div className="tab-row">
             {["Evidence graph", "Rule trace", "What-if"].map((itemTab) => <button className={tab === itemTab ? "active" : ""} onClick={() => setTab(itemTab)} key={itemTab}>{itemTab}</button>)}
           </div>
@@ -483,7 +568,7 @@ function EvidenceGraph({ item, result }: { item: DisputeCase; result: Evaluation
 
 function RuleTrace({ item, result }: { item: DisputeCase; result: Evaluation }) {
   const rule = REASON_CODES[item.code];
-  const steps = [
+  const steps: Array<[string, string, boolean]> = [
     ["Eligibility window", `${item.ageDays} days ≤ ${rule.deadlineDays}-day rule window`, result.checks.deadlineEligible],
     ["Required record", result.missing.length ? `Missing: ${result.missing.join(", ")}` : "All required evidence types present", result.checks.requiredEvidenceComplete],
     ["Contradiction control", result.contradictions.length ? `${result.contradictions.length} conflict routed through guardrail` : "No material contradictions", result.checks.contradictionReviewed],
@@ -518,9 +603,9 @@ function FairnessLab({ item, chooseCase }: { item: DisputeCase; chooseCase: (id:
   return (
     <>
       <PageHeading
-        eyebrow="Model assurance"
-        title="Fairness lab"
-        description="Behavioral tests challenge the decision boundary—not the visual polish. Every transformation is reproducible."
+        eyebrow="Decision assurance"
+        title="Fairness checks"
+        description="See whether the same evidence is treated consistently when identity, strength, completeness, or party role changes."
         actions={<><select className="heading-select" value={item.id} onChange={(event) => chooseCase(event.target.value)}>{CASES.map((demoCase) => <option value={demoCase.id} key={demoCase.id}>{demoCase.id}</option>)}</select><button className="primary-button" onClick={() => setRan(true)}><Icon name="play" /> Run suite</button></>}
       />
       <section className="fairness-summary">
@@ -567,7 +652,7 @@ function AuditControls({ onNotify }: { onNotify: (message: string) => void }) {
   ];
   return (
     <>
-      <PageHeading eyebrow="Governance surface" title="Audit & controls" description="Every evidence mutation, rule execution, and human decision is represented in a reviewable demo trail." actions={<button className="secondary-button" onClick={() => onNotify("Audit export scope previewed; persistent export is a future integration")}><Icon name="download" /> Preview export scope</button>} />
+      <PageHeading eyebrow="Review and governance" title="Decision history" description="Retrace what changed, which checks ran, and where human authority remains in control." actions={<button className="secondary-button" onClick={() => onNotify("Audit export scope previewed; persistent export is a future integration")}><Icon name="download" /> Preview export scope</button>} />
       <section className="control-grid">
         <div className="card control-card">
           <span className="control-icon green"><Icon name="shield" /></span><div><p>System posture</p><h3>Protected</h3><small>Core controls active</small></div><StatusPill outcome="member_win" label="Healthy" />

@@ -4,6 +4,16 @@ ProofPair is a deterministic dispute-resolution workspace built for the American
 
 It demonstrates how two-sided evidence can move through normalization, provenance, contradiction checks, versioned rule packs, a governed recommendation, metamorphic fairness tests, specialist escalation, and an explainable decision receipt.
 
+## First-time experience
+
+The home screen begins with a 90-second guided review:
+
+1. Understand the case in plain language.
+2. Compare both parties’ evidence.
+3. Inspect the rule trace and decision receipt.
+
+Advanced analyst tools remain available without forcing a new user to understand internal terminology first.
+
 ## Prototype scope
 
 - Five non-fraud reason-code packs: 4512, 4513, 4544, 4553, and 4554
@@ -34,7 +44,11 @@ npm run lint
 npm test
 ```
 
-`npm test` runs deterministic engine assertions, a production build, and a server-render smoke test.
+`npm test` runs deterministic engine assertions, source-integrity checks, and a production build.
+
+## Deploy
+
+This is a standard Next.js application and can be imported directly into Vercel with no custom build configuration.
 
 ## Architecture
 
