@@ -1,0 +1,8 @@
+{
+  "label": "Door camera activity log",
+  "type": "door_camera_log",
+  "source": "member",
+  "supports": "member",
+  "reliability": 0.72,
+  "detail": "No carrier or courier activity recorded at the verified address during the claimed delivery window."
+}
