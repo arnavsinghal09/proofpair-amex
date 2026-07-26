@@ -93,8 +93,8 @@ export default function Home() {
 
   return (
     <div className="app-shell">
-      <aside className="sidebar">
-        <div className="brand">
+      <header className="product-header">
+        <button className="brand product-brand" onClick={() => navigate("overview")} aria-label="Go to ProofPair home">
           <div className="brand-mark" aria-hidden="true">
             <span />
             <span />
@@ -103,73 +103,34 @@ export default function Home() {
             <strong>ProofPair</strong>
             <small>Resolution intelligence</small>
           </div>
-        </div>
-
-        <nav className="primary-nav" aria-label="Primary navigation">
-          <p className="nav-label">Get around</p>
+        </button>
+        <nav className="product-nav" aria-label="Primary navigation">
           {NAV.map((item) => (
             <button
-              className={page === item.id ? "nav-item active" : "nav-item"}
+              className={page === item.id ? "product-nav-item active" : "product-nav-item"}
               key={item.id}
               onClick={() => navigate(item.id)}
             >
               <Icon name={item.icon} />
               <span>{item.label}</span>
-              {item.id === "cases" && <b>6</b>}
             </button>
           ))}
         </nav>
-
-        <div className="sidebar-rule" />
-        <p className="nav-label">Reason codes</p>
-        <div className="rule-stack">
-          {Object.entries(REASON_CODES).map(([code, rule]) => (
-            <button key={code} onClick={() => {
-              const match = CASES.find((item) => item.code === code);
-              if (match) chooseCase(match.id);
-            }}>
-              <i style={{ background: rule.accent }} />
-              <span><strong>{code}</strong>{rule.short}</span>
-              <Icon name="chevron" />
-            </button>
-          ))}
+        <div className="product-actions">
+          <span className="demo-pill"><Icon name="beaker" /> Synthetic demo</span>
+          <div className="role-switch">
+            <Icon name="user" />
+            <span>Viewing as</span>
+            <select value={role} onChange={(event) => setRole(event.target.value as Role)} aria-label="Switch persona">
+              <option>Analyst</option>
+              <option>Card Member</option>
+              <option>Merchant</option>
+            </select>
+          </div>
         </div>
+      </header>
 
-        <div className="sidebar-footer">
-          <div className="system-status">
-            <span className="pulse" />
-            <div><strong>Demo ready</strong><small>Rules PP-v1.0 · Synthetic data</small></div>
-          </div>
-          <button className="user-card">
-            <span className="avatar">AS</span>
-            <span><strong>Alex Smith</strong><small>Resolution analyst</small></span>
-            <Icon name="dots" />
-          </button>
-        </div>
-      </aside>
-
-      <main className="main">
-        <header className="topbar">
-          <div className="crumbs">
-            <span>American Express</span>
-            <Icon name="chevron" />
-            <strong>{NAV.find((item) => item.id === page)?.label}</strong>
-          </div>
-          <div className="top-actions">
-            <div className="demo-pill"><Icon name="beaker" /> Safe demo data</div>
-            <div className="role-switch">
-              <Icon name="user" />
-              <span>Viewing as</span>
-              <select value={role} onChange={(event) => setRole(event.target.value as Role)} aria-label="Switch persona">
-                <option>Analyst</option>
-                <option>Card Member</option>
-                <option>Merchant</option>
-              </select>
-            </div>
-            <button className="icon-button" aria-label="Notifications"><Icon name="bell" /><i /></button>
-          </div>
-        </header>
-
+      <main className="product-main">
         <div className="page-wrap">
           {page === "overview" && <Overview metrics={metrics} chooseCase={chooseCase} startGuide={startGuide} />}
           {page === "cases" && <CaseQueue chooseCase={chooseCase} />}
@@ -200,68 +161,72 @@ export default function Home() {
 
 function Overview({ metrics, chooseCase, startGuide }: { metrics: ReturnType<typeof operationsMetrics>; chooseCase: (id: string) => void; startGuide: () => void }) {
   return (
-    <>
-      <PageHeading
-        eyebrow="Welcome to ProofPair"
-        title="Resolve disputes with less guesswork"
-        description="Compare both sides, spot missing evidence, and understand every recommendation before anyone acts."
-        actions={<button className="secondary-button" onClick={() => chooseCase("DP-20841")}><Icon name="spark" /> Skip to a case</button>}
-      />
-      <section className="welcome-panel">
+    <div className="product-home">
+      <section className="home-hero">
         <div className="welcome-copy">
-          <span className="welcome-badge"><Icon name="play" /> 90-second walkthrough</span>
-          <h2>Your first dispute, explained step by step.</h2>
-          <p>We’ll guide you through one non-delivery case—what each side submitted, what conflicts, and why the recommendation is safe to review.</p>
-          <button className="welcome-button" onClick={startGuide}>Start guided review <Icon name="arrow" /></button>
+          <span className="welcome-badge"><Icon name="shield" /> Human-reviewed resolution</span>
+          <h1>See both sides.<br />Resolve with confidence.</h1>
+          <p>ProofPair turns scattered dispute evidence into one clear story—then shows exactly why a case can be resolved or needs a specialist.</p>
+          <div className="hero-actions">
+            <button className="welcome-button" onClick={startGuide}>Review a sample case <Icon name="arrow" /></button>
+            <button className="hero-secondary" onClick={() => chooseCase("DP-20841")}>Open analyst workspace</button>
+          </div>
+          <div className="hero-proof">
+            <span><Icon name="check" /> No black-box decision</span>
+            <span><Icon name="check" /> Both parties represented</span>
+            <span><Icon name="check" /> Ambiguity escalates</span>
+          </div>
         </div>
-        <div className="journey-preview">
+        <div className="hero-case-card">
+          <div className="hero-case-top">
+            <span className="case-icon"><Icon name="package" /></span>
+            <span><small>Sample dispute · 4554</small><strong>Package marked delivered,<br />card member never received it</strong></span>
+          </div>
+          <div className="hero-case-parties">
+            <span><small>Card member</small><strong>Maya Chen</strong></span>
+            <i>vs.</i>
+            <span><small>Merchant</small><strong>Northstar Audio</strong></span>
+          </div>
+          <div className="hero-conflict">
+            <Icon name="alert" />
+            <span><small>Key conflict detected</small><strong>Delivery ZIP does not match the verified destination</strong></span>
+          </div>
+          <footer>
+            <span><small>Disputed amount</small><strong>$684.20</strong></span>
+            <span><small>Time to review</small><strong>≈ 90 seconds</strong></span>
+          </footer>
+        </div>
+      </section>
+
+      <section className="home-value-section">
+        <div className="home-section-heading">
+          <span>How it works</span>
+          <h2>From scattered evidence to a review-ready answer</h2>
+          <p>Three understandable steps. Technical detail is available when you need it—not before.</p>
+        </div>
+        <div className="home-value-grid">
           {[
-            ["01", "Understand the case", "See the claim in plain language"],
-            ["02", "Compare both sides", "Inspect evidence and conflicts"],
-            ["03", "Review the outcome", "See the rule trace and next step"],
-          ].map((step, index) => (
-            <div key={step[0]} className={index === 0 ? "active" : ""}>
-              <span>{step[0]}</span>
-              <div><strong>{step[1]}</strong><small>{step[2]}</small></div>
-              {index < 2 && <i />}
-            </div>
+            ["01", "Bring the story together", "Member, merchant, carrier, and transaction records appear in one shared timeline.", "inbox"],
+            ["02", "Make conflicts obvious", "ProofPair surfaces missing records and contradictions instead of burying them in documents.", "spark"],
+            ["03", "Recommend or escalate", "A versioned rule trace explains the next step. Unclear cases always go to a person.", "usercheck"],
+          ].map(([number, title, copy, icon]) => (
+            <article key={number}>
+              <span className="value-icon"><Icon name={icon} /></span>
+              <small>{number}</small>
+              <h3>{title}</h3>
+              <p>{copy}</p>
+            </article>
           ))}
         </div>
       </section>
-      <div className="section-intro"><div><span>Live workspace</span><h2>Today at a glance</h2></div><p>All figures below are synthetic demonstration metrics.</p></div>
-      <section className="metric-grid">
-        <Metric label="Open disputes" value="148" delta="↓ 12.4%" detail="vs. prior 7 days" tone="blue" />
-        <Metric label="Evidence-complete" value="81%" delta="↑ 9.2%" detail="first response" tone="green" />
-        <Metric label="Median resolution" value="2.4d" delta="↓ 18h" detail="synthetic target" tone="violet" />
-        <Metric label="SLA at risk" value={`${metrics.atRisk}`} delta="Needs action" detail="within 8 hours" tone="amber" />
+
+      <section className="home-trust-strip">
+        <div><strong>{metrics.resolved + metrics.escalated}</strong><span>Synthetic cases available</span></div>
+        <div><strong>4</strong><span>Behavioral fairness checks</span></div>
+        <div><strong>100%</strong><span>Missing evidence escalated</span></div>
+        <button onClick={() => chooseCase("DP-20841")}>Explore the full workspace <Icon name="arrow" /></button>
       </section>
-      <section className="overview-grid">
-        <div className="card large-card">
-          <CardHeader title="Resolution flow" subtitle="Synthetic operations · last 7 days" action="View report" />
-          <div className="flow-chart" aria-label="Resolution volume chart">
-            {[52, 68, 61, 82, 73, 88, 79, 96, 84, 108, 94, 116].map((height, index) => (
-              <div key={index}><span style={{ height: `${height}px` }} /><i style={{ height: `${Math.max(24, height - 22)}px` }} /></div>
-            ))}
-          </div>
-          <div className="chart-legend"><span><i className="legend-blue" /> Evidence complete</span><span><i className="legend-light" /> Needs response</span><b>Apr 01 — Apr 12</b></div>
-        </div>
-        <div className="card">
-          <CardHeader title="Automation boundary" subtitle="Deterministic recommendations" />
-          <div className="donut-wrap">
-            <div className="donut"><div><strong>{metrics.automationRate}%</strong><span>resolvable</span></div></div>
-            <div className="donut-legend">
-              <span><i className="dot blue" /><b>{metrics.resolved}</b> Rule-complete</span>
-              <span><i className="dot orange" /><b>{metrics.escalated}</b> Human review</span>
-            </div>
-          </div>
-          <div className="boundary-note"><Icon name="shield" /><span><strong>Fail-closed by design</strong>Missing or conflicting evidence never receives an automatic recommendation.</span></div>
-        </div>
-      </section>
-      <section className="card">
-        <CardHeader title="Cases requiring attention" subtitle="Prioritized by SLA, value, and evidence risk" action="Open queue" />
-        <MiniCaseTable chooseCase={chooseCase} />
-      </section>
-    </>
+    </div>
   );
 }
 
@@ -349,49 +314,26 @@ function Workbench({
   const [receiptOpen, setReceiptOpen] = useState(false);
   const selected = item.evidence.find((evidence) => evidence.id === activeEvidence) ?? item.evidence[0];
   const rule = REASON_CODES[item.code];
-  const guideCopy = [
-    {
-      title: "First, understand what happened",
-      copy: "This summary gives you the amount, reason, deadline, and both parties before you inspect any details.",
-      action: "Show me the evidence",
-    },
-    {
-      title: "Now compare both sides",
-      copy: "Select any evidence card to see where it came from, whom it supports, and how reliable it is in this demo.",
-      action: "Explain the rule checks",
-    },
-    {
-      title: "Finally, understand the recommendation",
-      copy: "The rule trace shows every gate. Nothing is sent automatically; you can open the receipt or escalate.",
-      action: "Open the receipt",
-    },
-  ][guideStep - 1];
 
-  function advanceGuide() {
-    if (guideStep === 1) {
-      setActiveEvidence(item.evidence.find((evidence) => evidence.type === "carrier_delivery")?.id ?? item.evidence[0].id);
-      onGuideStep(2);
-    } else if (guideStep === 2) {
-      setTab("Rule trace");
-      onGuideStep(3);
-    } else {
-      setReceiptOpen(true);
-      onGuideExit();
-    }
+  if (guided) {
+    return (
+      <GuidedReview
+        item={item}
+        result={result}
+        step={guideStep}
+        onStep={onGuideStep}
+        onExit={onGuideExit}
+        onFinish={() => {
+          setTab("Rule trace");
+          setReceiptOpen(true);
+          onGuideExit();
+        }}
+      />
+    );
   }
 
   return (
     <>
-      {guided && guideCopy && (
-        <section className="guide-coach">
-          <div className="guide-progress">
-            <span>{guideStep}</span>
-            <div><small>Guided review</small><strong>Step {guideStep} of 3</strong></div>
-          </div>
-          <div className="guide-message"><h2>{guideCopy.title}</h2><p>{guideCopy.copy}</p></div>
-          <div className="guide-actions"><button onClick={onGuideExit}>Exit guide</button><button onClick={advanceGuide}>{guideCopy.action} <Icon name="arrow" /></button></div>
-        </section>
-      )}
       <div className="case-heading">
         <div>
           <div className="eyebrow-row"><span>Review a dispute</span><i />{item.id}</div>
@@ -536,6 +478,151 @@ function Workbench({
         </div>
       )}
     </>
+  );
+}
+
+function GuidedReview({
+  item,
+  result,
+  step,
+  onStep,
+  onExit,
+  onFinish,
+}: {
+  item: DisputeCase;
+  result: Evaluation;
+  step: number;
+  onStep: (step: number) => void;
+  onExit: () => void;
+  onFinish: () => void;
+}) {
+  const rule = REASON_CODES[item.code];
+  const memberEvidence = item.evidence.filter((evidence) => evidence.supports === "member");
+  const merchantEvidence = item.evidence.filter((evidence) => evidence.supports === "merchant");
+
+  return (
+    <div className="guided-shell">
+      <header className="guided-header">
+        <button onClick={onExit}><Icon name="arrowleft" /> Exit walkthrough</button>
+        <div className="guided-progress" aria-label={`Step ${step} of 3`}>
+          {["Understand", "Compare", "Decide"].map((label, index) => (
+            <span className={index + 1 <= step ? "active" : ""} key={label}>
+              <i>{index + 1}</i><b>{label}</b>
+            </span>
+          ))}
+        </div>
+        <small>About 90 seconds</small>
+      </header>
+
+      {step === 1 && (
+        <section className="guided-stage guided-understand">
+          <div className="guided-intro">
+            <span>Step 1 · Understand the dispute</span>
+            <h1>What happened?</h1>
+            <p>Start with the story—not the system. Here is the complete dispute in plain language.</p>
+          </div>
+          <div className="story-card">
+            <div className="story-heading">
+              <span className="case-icon"><Icon name="package" /></span>
+              <div><small>{item.id} · Reason {item.code}</small><h2>{rule.short}</h2></div>
+              <StatusPill outcome={result.outcome} label="Ready for review" />
+            </div>
+            <p className="story-narrative">{item.narrative}</p>
+            <div className="story-parties">
+              <div><span className="party-avatar member">MC</span><span><small>Card member</small><strong>{item.member}</strong><p>Says the package never arrived.</p></span></div>
+              <i>versus</i>
+              <div><span className="party-avatar merchant">NA</span><span><small>Merchant</small><strong>{item.merchant}</strong><p>Says the carrier marked it delivered.</p></span></div>
+            </div>
+            <div className="story-facts">
+              <span><small>Amount</small><strong>${item.amount.toLocaleString(undefined, { minimumFractionDigits: 2 })}</strong></span>
+              <span><small>Filed</small><strong>{item.ageDays} days ago</strong></span>
+              <span><small>Review deadline</small><strong>{item.slaHours} hours</strong></span>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {step === 2 && (
+        <section className="guided-stage guided-compare">
+          <div className="guided-intro">
+            <span>Step 2 · Compare the evidence</span>
+            <h1>What does each side show?</h1>
+            <p>ProofPair keeps the parties separate, makes provenance visible, and brings the decisive conflict to the center.</p>
+          </div>
+          <div className="evidence-compare">
+            <div className="party-evidence member">
+              <header><span className="party-avatar member">MC</span><span><small>Card member evidence</small><strong>{item.member}</strong></span></header>
+              {memberEvidence.map((evidence) => (
+                <article key={evidence.id}>
+                  <Icon name="file" />
+                  <span><strong>{evidence.label}</strong><small>{evidence.detail}</small></span>
+                  <b>{evidence.verified ? "Verified" : "Submitted"}</b>
+                </article>
+              ))}
+            </div>
+            <div className="evidence-conflict-card">
+              <span><Icon name="alert" /></span>
+              <small>Decisive conflict</small>
+              <h2>10011 ≠ 10013</h2>
+              <p>The carrier delivery ZIP differs from the verified destination, and no recipient signature is present.</p>
+              <b>Needs explanation</b>
+            </div>
+            <div className="party-evidence merchant">
+              <header><span className="party-avatar merchant">NA</span><span><small>Merchant evidence</small><strong>{item.merchant}</strong></span></header>
+              {merchantEvidence.map((evidence) => (
+                <article key={evidence.id}>
+                  <Icon name="file" />
+                  <span><strong>{evidence.label}</strong><small>{evidence.detail}</small></span>
+                  <b>{evidence.verified ? "Verified" : "Submitted"}</b>
+                </article>
+              ))}
+            </div>
+          </div>
+          <p className="guided-caveat"><Icon name="info" /> Demo reliability values are transparent inputs—not AI certainty or real-world verification.</p>
+        </section>
+      )}
+
+      {step === 3 && (
+        <section className="guided-stage guided-decide">
+          <div className="guided-intro">
+            <span>Step 3 · Review the recommendation</span>
+            <h1>A recommendation you can inspect</h1>
+            <p>The engine applies the configured evidence rules, explains every control, and stops when the record is incomplete.</p>
+          </div>
+          <div className="guided-outcome">
+            <div className="outcome-summary">
+              <span className={`outcome-mark ${result.outcome}`}><Icon name={result.outcome === "human_escalation" ? "usercheck" : "check"} /></span>
+              <small>Recommended next step</small>
+              <h2>{formatOutcome(result.outcome)}</h2>
+              <p>{result.rationale}</p>
+              <div className="guided-score"><span>Evidence sufficiency</span><strong>{result.confidence}%</strong><i><b style={{ width: `${result.confidence}%` }} /></i></div>
+            </div>
+            <div className="outcome-explanation">
+              <h3>Why this recommendation?</h3>
+              {[
+                ["Required evidence is present", result.checks.requiredEvidenceComplete],
+                ["The filing window is valid", result.checks.deadlineEligible],
+                ["A decisive address conflict was found", result.contradictions.length > 0],
+                ["Decisive evidence supports the result", result.checks.decisiveEvidencePresent],
+              ].map(([label, pass]) => (
+                <span key={String(label)} className={pass ? "pass" : "warn"}><Icon name={pass ? "check" : "alert"} /><b>{label}</b></span>
+              ))}
+              <div className="human-control"><Icon name="shield" /><span><strong>A person stays in control</strong><small>This recommendation cannot move money or update an account.</small></span></div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      <footer className="guided-footer">
+        <span>{step === 1 ? "Next: compare the evidence" : step === 2 ? "Next: understand the recommendation" : "You’ve completed the guided review"}</span>
+        <div>
+          {step > 1 && <button className="secondary-button" onClick={() => onStep(step - 1)}>Back</button>}
+          {step < 3
+            ? <button className="primary-button" onClick={() => onStep(step + 1)}>Continue <Icon name="arrow" /></button>
+            : <button className="primary-button" onClick={onFinish}><Icon name="receipt" /> Open decision receipt</button>}
+        </div>
+      </footer>
+    </div>
   );
 }
 
@@ -701,16 +788,8 @@ function AuditControls({ onNotify }: { onNotify: (message: string) => void }) {
   );
 }
 
-function MiniCaseTable({ chooseCase }: { chooseCase: (id: string) => void }) {
-  return <div className="mini-table">{CASES.slice(0, 4).map((item) => <button key={item.id} onClick={() => chooseCase(item.id)}><span><b className="code-chip">{item.code}</b><span><strong>{item.id}</strong><small>{item.merchant} · {item.member}</small></span></span><span><strong>${item.amount.toLocaleString()}</strong><small>{item.evidence.length} evidence items</small></span><span className={item.slaHours <= 8 ? "urgent" : ""}><strong>{item.slaHours}h</strong><small>SLA left</small></span><StatusPill outcome={evaluateCase(item).outcome} /><Icon name="arrow" /></button>)}</div>;
-}
-
 function PageHeading({ eyebrow, title, description, actions }: { eyebrow: string; title: string; description: string; actions?: React.ReactNode }) {
   return <div className="page-heading"><div><span className="eyebrow">{eyebrow}</span><h1>{title}</h1><p>{description}</p></div>{actions && <div className="heading-actions">{actions}</div>}</div>;
-}
-
-function Metric({ label, value, delta, detail, tone }: { label: string; value: string; delta: string; detail: string; tone: string }) {
-  return <div className={`metric-card ${tone}`}><div><span>{label}</span><Icon name={tone === "amber" ? "alert" : "trend"} /></div><strong>{value}</strong><footer><b>{delta}</b><span>{detail}</span></footer></div>;
 }
 
 function CardHeader({ title, subtitle, action }: { title: string; subtitle: string; action?: string }) {
@@ -744,10 +823,12 @@ function Icon({ name }: { name: string }) {
     trend: <><path d="m3 17 6-6 4 4 8-9"/><path d="M15 6h6v6"/></>,
     download: <><path d="M12 3v12m0 0 5-5m-5 5-5-5"/><path d="M4 19h16"/></>,
     arrow: <path d="M5 12h14m-5-5 5 5-5 5"/>,
+    arrowleft: <path d="M19 12H5m5-5-5 5 5 5"/>,
     search: <><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></>,
     sliders: <><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></>,
     plus: <><path d="M12 5v14M5 12h14"/></>,
     file: <><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></>,
+    package: <><path d="m4 7 8-4 8 4-8 4-8-4Z"/><path d="M4 7v10l8 4 8-4V7M12 11v10"/></>,
     store: <><path d="M4 9v11h16V9M3 9l2-5h14l2 5"/><path d="M8 13h3v7"/></>,
     lock: <><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></>,
     send: <><path d="m3 3 18 9-18 9 4-9-4-9Z"/><path d="M7 12h14"/></>,

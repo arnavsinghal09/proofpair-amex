@@ -3,14 +3,16 @@
   "version": "1.0.0",
   "private": true,
   "engines": {
-    "node": ">=22.13.0"
+    "node": "22.x"
   },
   "scripts": {
     "dev": "next dev",
     "build": "next build --webpack",
     "start": "next start",
     "test": "node --test tests/engine.test.mjs tests/source.test.mjs && npm run build",
-    "lint": "eslint . --ignore-pattern .next --ignore-pattern dist"
+    "lint": "eslint . --ignore-pattern .next --ignore-pattern dist",
+    "ci": "npm run lint && npm test",
+    "preflight": "npm ci && npm run ci"
   },
   "dependencies": {
     "next": "^16.2.12",

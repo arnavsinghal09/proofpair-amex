@@ -40,15 +40,18 @@ Open `http://localhost:3000`.
 ## Verify
 
 ```bash
-npm run lint
-npm test
+npm run ci
 ```
 
-`npm test` runs deterministic engine assertions, source-integrity checks, and a production build.
+`npm run ci` runs linting, deterministic engine assertions, source-integrity checks, TypeScript validation, and a production build. `npm run preflight` begins from the committed lockfile and reproduces the clean-install CI path.
 
 ## Deploy
 
-This is a standard Next.js application and can be imported directly into Vercel with no custom build configuration.
+Production: [proofpair-prototype.vercel.app](https://proofpair-prototype.vercel.app/)
+
+This is a standard Next.js application with a pinned Node major and a committed lockfile. Vercel is configured to install with `npm ci` and build with the same command used in CI.
+
+See [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) for the release gate, first-time Vercel setup, and recovery steps.
 
 ## Architecture
 
