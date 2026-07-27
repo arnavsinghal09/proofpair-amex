@@ -49,6 +49,30 @@ test("ships the complete analyst operating system with readable typography", asy
   assert.doesNotMatch(styles, /font-size:\s*(?:[7-9]|10|11)px/);
 });
 
+test("keeps every primary analyst workflow operational instead of decorative", async () => {
+  const [page, styles] = await Promise.all([
+    readFile(new URL("app/page.tsx", root), "utf8"),
+    readFile(new URL("app/globals.css", root), "utf8"),
+  ]);
+
+  assert.match(page, /NotificationCenter/);
+  assert.match(page, /patchCases/);
+  assert.match(page, /column-manager/);
+  assert.match(page, /bulk-action-panel/);
+  assert.match(page, /narrative-editor/);
+  assert.match(page, /assignment-editor/);
+  assert.match(page, /Evidence inspector/);
+  assert.match(page, /Mark as reviewed/);
+  assert.match(page, /queueMessage/);
+  assert.match(page, /Policy change log/);
+  assert.match(page, /downloadFile/);
+  assert.match(page, /window\.print/);
+  assert.match(page, /event\.key === "Escape"/);
+  assert.match(styles, /\.side-panel-backdrop/);
+  assert.match(styles, /\.communication-filters/);
+  assert.match(styles, /button:disabled/);
+});
+
 test("pins a reproducible GitHub and Vercel release contract", async () => {
   const [packageJson, lockfile, workflow, vercel, nodeVersion] = await Promise.all([
     readFile(new URL("package.json", root), "utf8"),

@@ -31,7 +31,13 @@ After pushing:
 4. Open the command center, move through the queue, and complete all five tabs of the priority case.
 5. Check desktop and narrow mobile widths.
 6. Confirm the browser console has no errors.
-7. Verify evidence upload, case switching, counterfactual reset behavior, controlled-message disclaimers, decision-receipt printing, and all four assurance checks.
+7. Verify the notification drawer and both direct-routing actions.
+8. Verify queue search, saved views, column controls, select-all, bulk assignment, priority changes, specialist routing, undo, and CSV export.
+9. Verify case switching, narrative editing, assignment, checklist persistence, evidence upload, evidence inspection, reviewed state, and metadata export.
+10. Verify all counterfactual branches and reset behavior, specialist routing, receipt close/print behavior, and all four assurance checks.
+11. Verify correspondence filters, audience switching, response-date validation, local message queueing, and the no-send disclaimer.
+12. Verify audit, portfolio, and policy change-log exports.
+13. Confirm drawers and the receipt close by their close button, the backdrop, and Escape.
 
 ## Why deployment is reproducible
 

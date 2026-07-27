@@ -17,7 +17,7 @@ ProofPair is an end-to-end operating environment for a dispute analyst, operatio
 7. The **audit trail** records case events, behavioral checks, and explicit truth boundaries.
 8. **Portfolio intelligence** and **governance** expose synthetic workload patterns, rule packs, authority, and mocked integrations.
 
-The interface uses progressive disclosure to preserve a clear operating path without deleting expert controls.
+The interface uses progressive disclosure to preserve a clear operating path without deleting expert controls. Operational changes are visible immediately, reversible where appropriate, and carried across the queue and case workspace for the current session.
 
 ## Prototype scope
 
@@ -28,6 +28,12 @@ The interface uses progressive disclosure to preserve a clear operating path wit
 - Counterfactual scenario simulator
 - Four-test fairness lab, including role-swap symmetry
 - Decision receipt and reviewable in-session event history
+- Operational notifications with direct case routing
+- Configurable queue columns, select-all, bulk assignment, priority, and specialist routing
+- Editable case narratives, ownership, priority, and review checklist
+- Inspectable evidence records with local reviewed state and metadata export
+- Controlled message drafting, audience filters, deadline editing, and a local outbound queue
+- Queue, portfolio, audit, and policy-registry exports
 - Responsive command center, queue, five-tab case workspace, portfolio, governance, and printable receipt
 
 All case data and operating metrics are synthetic. The prototype has no AMEX, payment-rail, merchant, carrier, or account connection.
@@ -74,6 +80,6 @@ The adjudication path is deterministic. A future OCR or language-model adapter m
 
 ## Truth boundary
 
-Implemented: client-side workflow, synthetic dataset, deterministic engine, local file normalization, four fairness transformations, scenario simulation, and printable receipt.
+Implemented: client-side workflow state, synthetic dataset, deterministic engine, local file normalization, queue operations, evidence inspection, controlled message queue, four fairness transformations, scenario simulation, exports, and printable receipt.
 
-Not implemented: persistence, authentication, OCR, production policy coverage, calibrated confidence, external audit anchoring, or AMEX integrations.
+Not implemented: persistence beyond the active browser session, authentication, OCR, production policy coverage, calibrated confidence, external audit anchoring, outbound communications, or AMEX integrations.
