@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "ProofPair — Resolution Intelligence",
-  description: "A deterministic, evidence-grounded dispute resolution operating system for American Express.",
+  title: "ProofPair — Dispute Review",
+  description: "A two-sided, evidence-grounded dispute review workspace for American Express.",
   icons: { icon: "/favicon.svg", shortcut: "/favicon.svg" },
 };
 

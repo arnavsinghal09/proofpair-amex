@@ -17,22 +17,25 @@ test("uses the standard Next.js runtime with no prior-hosting markers", async ()
   assert.doesNotMatch(`${page}\n${layout}`, /chatgpt|codex-preview|signin-with-chatgpt/i);
 });
 
-test("keeps the beginner path and technical proof surfaces together", async () => {
-  const [page, engine] = await Promise.all([
+test("keeps the analyst workflow focused, readable, and progressively disclosed", async () => {
+  const [page, styles, engine] = await Promise.all([
     readFile(new URL("app/page.tsx", root), "utf8"),
+    readFile(new URL("app/globals.css", root), "utf8"),
     readFile(new URL("lib/proofpair-engine.mjs", root), "utf8"),
   ]);
-  assert.match(page, /Review a sample case/);
-  assert.match(page, /Start with the story—not the system/);
-  assert.match(page, /Step 2 · Compare the evidence/);
-  assert.match(page, /A recommendation you can inspect/);
-  assert.match(page, /className="product-header"/);
-  assert.match(page, /className="guided-shell"/);
-  assert.doesNotMatch(page, /<aside className="sidebar"/);
-  assert.match(page, /All disputes/);
-  assert.match(page, /Why this decision\?/);
+  assert.match(page, /Cases needing a decision/);
+  assert.match(page, /What happened/);
+  assert.match(page, /Evidence from both parties/);
+  assert.match(page, /Recommended next step/);
+  assert.match(page, /Decision rules/);
+  assert.match(page, /How ProofPair stays accountable/);
   assert.match(engine, /Role-swap symmetry/);
-  assert.match(page, /Generate decision receipt/);
+  assert.match(page, /Review decision receipt/);
+  assert.match(page, /data-label="Merchant \/ member"/);
+  assert.match(styles, /\.queue-head \{ display: none; \}/);
+  assert.match(styles, /\.app-shell:has\(\.modal-backdrop\)/);
+  assert.doesNotMatch(page, /Switch persona|Viewing as|90-second|home-hero|guided-shell/);
+  assert.doesNotMatch(styles, /font-size:\s*(?:[7-9]|10|11)px/);
 });
 
 test("pins a reproducible GitHub and Vercel release contract", async () => {

@@ -4,27 +4,27 @@ ProofPair is a deterministic dispute-resolution workspace built for the American
 
 It demonstrates how two-sided evidence can move through normalization, provenance, contradiction checks, versioned rule packs, a governed recommendation, metamorphic fairness tests, specialist escalation, and an explainable decision receipt.
 
-## First-time experience
+## Product workflow
 
-The home screen begins with a 90-second guided review:
+ProofPair is designed for one primary user: a dispute analyst.
 
-1. Understand the case in plain language.
-2. Compare both parties’ evidence.
-3. Inspect the rule trace and decision receipt.
+1. Start in the dispute queue and prioritize by deadline or evidence state.
+2. Open a case and understand the claim in plain language.
+3. Compare card-member and merchant evidence side by side.
+4. Review the recommended next step or route ambiguity to a specialist.
 
-Advanced analyst tools remain available without forcing a new user to understand internal terminology first.
+Rule checks, counterfactuals, behavioral assurance, and technical implementation details are available through progressive disclosure instead of competing with the primary review task.
 
 ## Prototype scope
 
 - Five non-fraud reason-code packs: 4512, 4513, 4544, 4553, and 4554
 - Six fictional cases with member-win, merchant-win, and specialist-escalation paths
-- Analyst, Card Member, and Merchant persona lenses
 - Local `.txt` / `.json` evidence ingestion
-- Evidence graph and explicit rule trace
+- Two-sided evidence review and explicit rule checks
 - Counterfactual scenario simulator
 - Four-test fairness lab, including role-swap symmetry
 - Decision receipt and reviewable in-session event history
-- Responsive command center, queue, workbench, fairness, and controls surfaces
+- Responsive queue, case review, assurance, and decision-receipt surfaces
 
 All case data and operating metrics are synthetic. The prototype has no AMEX, payment-rail, merchant, carrier, or account connection.
 
@@ -58,9 +58,9 @@ See [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) for the release gate, first-time Ve
 ```mermaid
 flowchart LR
     A[Local evidence intake] --> B[Evidence normalizer]
-    B --> C[Evidence graph]
-    C --> D[Five rule packs]
-    D --> E[Resolution orchestrator]
+    B --> C[Provenance-aware evidence record]
+    C --> D[Two-sided evidence review]
+    D --> E[Deterministic rule evaluation]
     E --> F[Fairness lab]
     E --> G[Decision receipt]
     E --> H[Specialist escalation]
