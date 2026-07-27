@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">ProofPair deterministic decision and abstention flow</title>
+  <desc id="desc">A branching flow from version-pinned rule selection through verified evidence, contradiction gates, score gap, recommendation, escalation and decision receipt.</desc>
+  <defs>
+    <style>
+      .bg{fill:#fff}.navy{fill:#002663}.blue{fill:#016fd0}.pale{fill:#e8f2fb}.gray{fill:#f1f2f4}.amber{fill:#fff2d8}.red{fill:#fde7e7}
+      .line{stroke:#002663;stroke-width:3;fill:none}.fail{stroke:#b42318;stroke-width:3;fill:none}
+      .t{font-family:"Helvetica Neue",Arial,sans-serif;fill:#002663}.white{fill:#fff}.redt{fill:#b42318}.muted{fill:#4d4f53}
+      .k{font-size:18px;font-weight:700;letter-spacing:3px}.h{font-family:Georgia,serif;font-size:42px;font-weight:700}.n{font-size:19px;font-weight:700}.b{font-size:15px}.cap{font-size:13px;font-weight:700;letter-spacing:1.3px}
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#002663"/></marker>
+    <marker id="redarrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#b42318"/></marker>
+  </defs>
+  <rect class="bg" width="1600" height="900"/>
+  <text class="t k" x="70" y="64">DETERMINISTIC POLICY EXECUTION</text>
+  <text class="t h" x="70" y="120">Every recommendation must clear four explicit control gates</text>
+  <line class="line" x1="70" y1="148" x2="1530" y2="148"/>
+
+  <rect class="navy" x="70" y="205" width="220" height="100"/>
+  <text class="t white cap" x="95" y="238">START</text><text class="t white n" x="95" y="272">Version-pinned</text><text class="t white b" x="95" y="294">reason pack</text>
+  <path class="line" marker-end="url(#arrow)" d="M290 255 H350"/>
+  <rect class="pale" x="360" y="205" width="220" height="100"/>
+  <text class="t cap" x="385" y="238">NORMALIZE</text><text class="t n" x="385" y="272">Verified, source-linked</text><text class="t b muted" x="385" y="294">evidence only</text>
+  <path class="line" marker-end="url(#arrow)" d="M580 255 H640"/>
+
+  <polygon class="amber" points="755,190 870,255 755,320 640,255"/>
+  <text class="t cap" x="704" y="245">GATE 01</text><text class="t n" x="687" y="270">Required types?</text>
+  <path class="fail" marker-end="url(#redarrow)" d="M755 320 V455 H782"/>
+  <text class="t redt cap" x="585" y="370">NO · MISSING VERIFIED RECORD</text>
+  <path class="line" marker-end="url(#arrow)" d="M870 255 H930"/>
+  <text class="t cap" x="884" y="238">YES</text>
+
+  <polygon class="amber" points="1045,190 1160,255 1045,320 930,255"/>
+  <text class="t cap" x="994" y="245">GATE 02</text><text class="t n" x="967" y="270">Conflict resolved?</text>
+  <path class="fail" marker-end="url(#redarrow)" d="M1045 320 V370 H1180 V485 H1148"/>
+  <text class="t redt cap" x="1070" y="350">NO · UNRESOLVED CONTRADICTION</text>
+  <path class="line" marker-end="url(#arrow)" d="M1160 255 H1220"/>
+  <text class="t cap" x="1174" y="238">YES</text>
+
+  <rect class="pale" x="1230" y="205" width="300" height="100"/>
+  <text class="t cap" x="1255" y="238">GOVERNED EVALUATION</text>
+  <text class="t n" x="1255" y="272">Party signal ledger</text>
+  <text class="t b muted" x="1255" y="294">weights × verification strength</text>
+
+  <path class="line" marker-end="url(#arrow)" d="M1380 305 V475"/>
+  <polygon class="amber" points="1380,455 1500,520 1380,585 1260,520"/>
+  <text class="t cap" x="1328" y="505">GATE 03</text><text class="t n" x="1288" y="529">Decisive record</text><text class="t n" x="1293" y="550">+ minimum gap?</text>
+  <path class="fail" marker-end="url(#redarrow)" d="M1260 520 H1140"/>
+  <text class="t redt cap" x="1192" y="502">NO</text>
+  <path class="line" marker-end="url(#arrow)" d="M1380 585 V665"/>
+  <text class="t cap" x="1396" y="620">YES</text>
+
+  <rect class="red" x="790" y="390" width="350" height="190"/>
+  <text class="t redt cap" x="820" y="428">FAIL-CLOSED OUTCOME</text>
+  <text class="t redt n" x="820" y="468">Specialist route</text>
+  <text class="t b muted" x="820" y="502">Named reason · missing/conflicting records</text>
+  <text class="t b muted" x="820" y="530">No recommendation · no account action</text>
+
+  <rect class="navy" x="1230" y="675" width="300" height="100"/>
+  <text class="t white cap" x="1255" y="708">GATE 04 · OUTPUT</text>
+  <text class="t white n" x="1255" y="742">Governed recommendation</text>
+  <text class="t white b" x="1255" y="766">not a financial action</text>
+
+  <path class="line" marker-end="url(#arrow)" d="M1230 725 H1120"/>
+  <rect class="gray" x="810" y="675" width="300" height="100"/>
+  <text class="t cap" x="835" y="708">DECISION RECEIPT</text>
+  <text class="t n" x="835" y="742">Rationale + evidence IDs</text>
+  <text class="t b muted" x="835" y="766">controls · rule version · outcome</text>
+
+  <rect class="navy" x="70" y="820" width="1460" height="48"/>
+  <text class="t white cap" x="95" y="850">NO TRAINED ADJUDICATOR · NO UNVERIFIED COMPLETENESS · NO SILENT CONTRADICTION · NO DIRECT MONEY MOVEMENT</text>
+</svg>

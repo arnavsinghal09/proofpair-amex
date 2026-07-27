@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">ProofPair end-to-end dispute resolution workflow</title>
+  <desc id="desc">A two-lane workflow showing system execution and human authority from case opening to decision receipt and appeal.</desc>
+  <defs>
+    <style>
+      .bg{fill:#fff}.navy{fill:#002663}.blue{fill:#016fd0}.pale{fill:#e8f2fb}.gray{fill:#f1f2f4}.amber{fill:#fff2d8}
+      .line{stroke:#002663;stroke-width:3;fill:none}.dash{stroke:#016fd0;stroke-width:2;stroke-dasharray:9 8;fill:none}
+      .t{font-family:"Helvetica Neue",Arial,sans-serif;fill:#002663}.white{fill:#fff}.muted{fill:#4d4f53}
+      .k{font-size:18px;font-weight:700;letter-spacing:3px}.h{font-family:Georgia,serif;font-size:42px;font-weight:700}.n{font-size:20px;font-weight:700}.b{font-size:15px}.cap{font-size:14px;font-weight:700;letter-spacing:1.5px}
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#002663"/></marker>
+  </defs>
+  <rect class="bg" width="1600" height="900"/>
+  <text class="t k" x="70" y="64">END-TO-END OPERATING FLOW</text>
+  <text class="t h" x="70" y="120">Automation accelerates evidence work; authority remains human</text>
+  <line class="line" x1="70" y1="148" x2="1530" y2="148"/>
+
+  <rect class="navy" x="70" y="190" width="180" height="260"/>
+  <text class="t white cap" x="100" y="230">SYSTEM LANE</text>
+  <text class="t white b" x="100" y="270">Deterministic</text><text class="t white b" x="100" y="296">Replayable</text>
+  <text class="t white b" x="100" y="322">No action authority</text>
+
+  <rect class="gray" x="70" y="500" width="180" height="250"/>
+  <text class="t cap" x="100" y="540">HUMAN LANE</text>
+  <text class="t b muted" x="100" y="580">Evidence owner</text><text class="t b muted" x="100" y="606">Analyst</text>
+  <text class="t b muted" x="100" y="632">Specialist</text><text class="t b muted" x="100" y="658">Approver</text>
+
+  <g>
+    <rect class="pale" x="290" y="220" width="170" height="110"/><text class="t cap" x="312" y="250">01</text><text class="t n" x="312" y="282">Open case</text><text class="t b muted" x="312" y="310">Case snapshot</text>
+    <rect class="pale" x="500" y="220" width="170" height="110"/><text class="t cap" x="522" y="250">02</text><text class="t n" x="522" y="282">Normalize</text><text class="t b muted" x="522" y="310">Evidence graph</text>
+    <rect class="pale" x="710" y="220" width="170" height="110"/><text class="t cap" x="732" y="250">03</text><text class="t n" x="732" y="282">Check</text><text class="t b muted" x="732" y="310">Requirements</text>
+    <rect class="amber" x="920" y="220" width="170" height="110"/><text class="t cap" x="942" y="250">04</text><text class="t n" x="942" y="282">Reconcile</text><text class="t b muted" x="942" y="310">Contradictions</text>
+    <rect class="pale" x="1130" y="220" width="170" height="110"/><text class="t cap" x="1152" y="250">05</text><text class="t n" x="1152" y="282">Evaluate</text><text class="t b muted" x="1152" y="310">Policy gates</text>
+    <rect class="navy" x="1340" y="220" width="190" height="110"/><text class="t white cap" x="1362" y="250">06</text><text class="t white n" x="1362" y="282">Emit</text><text class="t white b" x="1362" y="310">Recommendation</text>
+    <path class="line" marker-end="url(#arrow)" d="M460 275 H492"/><path class="line" marker-end="url(#arrow)" d="M670 275 H702"/>
+    <path class="line" marker-end="url(#arrow)" d="M880 275 H912"/><path class="line" marker-end="url(#arrow)" d="M1090 275 H1122"/>
+    <path class="line" marker-end="url(#arrow)" d="M1300 275 H1332"/>
+  </g>
+
+  <path class="dash" d="M795 330 V525"/><path class="dash" d="M1005 330 V525"/><path class="dash" d="M1435 330 V525"/>
+
+  <g>
+    <rect class="gray" x="290" y="545" width="220" height="130"/><text class="t cap" x="315" y="578">A · COMPLETE</text><text class="t n" x="315" y="612">Supply evidence</text><text class="t b muted" x="315" y="642">Card member or merchant</text>
+    <rect class="amber" x="565" y="545" width="220" height="130"/><text class="t cap" x="590" y="578">B · REVIEW</text><text class="t n" x="590" y="612">Resolve exception</text><text class="t b muted" x="590" y="642">Named specialist</text>
+    <rect class="gray" x="840" y="545" width="220" height="130"/><text class="t cap" x="865" y="578">C · AUTHORIZE</text><text class="t n" x="865" y="612">Approve action</text><text class="t b muted" x="865" y="642">Dual control</text>
+    <rect class="pale" x="1115" y="545" width="220" height="130"/><text class="t cap" x="1140" y="578">D · RECORD</text><text class="t n" x="1140" y="612">Issue receipt</text><text class="t b muted" x="1140" y="642">Rationale + evidence IDs</text>
+    <rect class="navy" x="1390" y="545" width="140" height="130"/><text class="t white cap" x="1414" y="578">E</text><text class="t white n" x="1414" y="612">Appeal</text><text class="t white b" x="1414" y="642">Traceable</text>
+    <path class="line" marker-end="url(#arrow)" d="M510 610 H557"/><path class="line" marker-end="url(#arrow)" d="M785 610 H832"/>
+    <path class="line" marker-end="url(#arrow)" d="M1060 610 H1107"/><path class="line" marker-end="url(#arrow)" d="M1335 610 H1382"/>
+  </g>
+
+  <rect class="navy" x="290" y="735" width="1240" height="75"/>
+  <text class="t white n" x="320" y="778">Every case exits with a next action, a named owner, and a replayable evidence-to-policy trace.</text>
+</svg>

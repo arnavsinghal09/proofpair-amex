@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">ProofPair interface wireframes</title>
+  <desc id="desc">Four structural wireframes for the command center, dispute queue, evidence room and decision studio.</desc>
+  <defs>
+    <style>
+      .bg{fill:#fff}.navy{fill:#002663}.blue{fill:#016fd0}.pale{fill:#e8f2fb}.gray{fill:#f1f2f4}.amber{fill:#fff2d8}
+      .frame{fill:#fff;stroke:#002663;stroke-width:3}.rule{stroke:#98a2ad;stroke-width:2}.accent{stroke:#016fd0;stroke-width:4}
+      .t{font-family:"Helvetica Neue",Arial,sans-serif;fill:#002663}.white{fill:#fff}.muted{fill:#4d4f53}
+      .k{font-size:18px;font-weight:700;letter-spacing:3px}.h{font-family:Georgia,serif;font-size:40px;font-weight:700}.n{font-size:22px;font-weight:700}.b{font-size:15px}.cap{font-size:13px;font-weight:700;letter-spacing:1.2px}
+    </style>
+  </defs>
+  <rect class="bg" width="1600" height="900"/>
+  <text class="t k" x="70" y="58">INTERFACE BLUEPRINT · DERIVED FROM THE WORKING PROTOTYPE</text>
+  <text class="t h" x="70" y="110">Progressive disclosure keeps operational density understandable</text>
+  <line x1="70" y1="138" x2="1530" y2="138" stroke="#002663" stroke-width="3"/>
+
+  <g transform="translate(70 175)">
+    <rect class="frame" width="700" height="300"/>
+    <rect class="navy" width="120" height="300"/>
+    <rect class="pale" x="120" width="580" height="42"/>
+    <text class="t white cap" x="18" y="30">PROOFPAIR</text>
+    <text class="t n" x="150" y="82">Command center</text>
+    <rect class="gray" x="150" y="102" width="125" height="64"/><rect class="gray" x="285" y="102" width="125" height="64"/>
+    <rect class="gray" x="420" y="102" width="125" height="64"/><rect class="pale" x="555" y="102" width="115" height="64"/>
+    <rect class="gray" x="150" y="188" width="330" height="82"/><rect class="gray" x="495" y="188" width="175" height="82"/>
+    <text class="t cap" x="150" y="294">PRESSURE → PRIORITY → NEXT CASE</text>
+  </g>
+
+  <g transform="translate(830 175)">
+    <rect class="frame" width="700" height="300"/>
+    <rect class="navy" width="120" height="300"/>
+    <rect class="pale" x="120" width="580" height="42"/>
+    <text class="t white cap" x="18" y="30">PROOFPAIR</text>
+    <text class="t n" x="150" y="82">Dispute queue</text>
+    <rect class="gray" x="150" y="100" width="520" height="30"/>
+    <rect class="navy" x="150" y="140" width="520" height="28"/>
+    <line class="rule" x1="150" y1="190" x2="670" y2="190"/><line class="rule" x1="150" y1="222" x2="670" y2="222"/>
+    <line class="rule" x1="150" y1="254" x2="670" y2="254"/>
+    <text class="t cap" x="150" y="294">FILTER → SELECT → ROUTE</text>
+  </g>
+
+  <g transform="translate(70 530)">
+    <rect class="frame" width="700" height="300"/>
+    <rect class="navy" width="120" height="300"/>
+    <rect class="navy" x="120" width="580" height="80"/>
+    <text class="t white cap" x="18" y="30">PROOFPAIR</text>
+    <text class="t white n" x="150" y="46">Evidence room</text>
+    <rect class="pale" x="150" y="102" width="330" height="46"/><rect class="gray" x="150" y="158" width="330" height="46"/>
+    <rect class="gray" x="150" y="214" width="330" height="46"/>
+    <rect class="pale" x="500" y="102" width="170" height="158"/>
+    <text class="t cap" x="150" y="294">REQUIREMENTS → PROVENANCE → CONFLICT</text>
+  </g>
+
+  <g transform="translate(830 530)">
+    <rect class="frame" width="700" height="300"/>
+    <rect class="navy" width="120" height="300"/>
+    <rect class="navy" x="120" width="580" height="80"/>
+    <text class="t white cap" x="18" y="30">PROOFPAIR</text>
+    <text class="t white n" x="150" y="46">Decision studio</text>
+    <rect class="navy" x="150" y="102" width="320" height="112"/>
+    <rect class="amber" x="490" y="102" width="180" height="112"/>
+    <rect class="gray" x="150" y="228" width="520" height="32"/>
+    <text class="t cap" x="150" y="294">TRACE → CHALLENGE → RECEIPT</text>
+  </g>
+</svg>

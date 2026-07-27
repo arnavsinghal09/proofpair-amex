@@ -63,6 +63,10 @@ test("keeps every primary analyst workflow operational instead of decorative", a
   assert.match(page, /assignment-editor/);
   assert.match(page, /Evidence inspector/);
   assert.match(page, /Mark as reviewed/);
+  assert.match(page, /Governed type weight/);
+  assert.match(page, /Ledger contribution/);
+  assert.match(page, /verification ×/);
+  assert.match(page, /Decisive record needed/);
   assert.match(page, /queueMessage/);
   assert.match(page, /Policy change log/);
   assert.match(page, /downloadFile/);

@@ -2,7 +2,7 @@
 
 ProofPair is a deterministic dispute-resolution workspace built for the American Express CodeStreet 2026 theme **Frictionless Dispute & Chargeback Resolution**.
 
-It demonstrates how two-sided evidence can move through normalization, provenance, contradiction checks, versioned rule packs, a governed recommendation, metamorphic fairness tests, specialist escalation, and an explainable decision receipt.
+It demonstrates how two-sided evidence can move through normalization, provenance, contradiction checks, versioned rule packs, behavioral assurance checks, specialist escalation, and an explainable decision receipt.
 
 ## Product workflow
 
@@ -13,7 +13,7 @@ ProofPair is an end-to-end operating environment for a dispute analyst, operatio
 3. The **case workspace** combines the narrative, transaction facts, party positions, tasks, and chronology.
 4. The **evidence room** exposes requirement coverage, provenance, contradictions, and two-sided records.
 5. The **decision studio** makes every configured signal and policy check inspectable, with counterfactual testing.
-6. **Communications** supports controlled evidence requests while clearly remaining disconnected in the prototype.
+6. **Communications** supports controlled evidence requests and an in-session outbound queue.
 7. The **audit trail** records case events, behavioral checks, and explicit truth boundaries.
 8. **Portfolio intelligence** and **governance** expose synthetic workload patterns, rule packs, authority, and mocked integrations.
 
@@ -26,7 +26,7 @@ The interface uses progressive disclosure to preserve a clear operating path wit
 - Local `.txt` / `.json` evidence ingestion
 - Two-sided evidence review and explicit rule checks
 - Counterfactual scenario simulator
-- Four-test fairness lab, including role-swap symmetry
+- Four-property behavioral assurance lab, including two-party monotonicity and role-swap symmetry
 - Decision receipt and reviewable in-session event history
 - Operational notifications with direct case routing
 - Configurable queue columns, select-all, bulk assignment, priority, and specialist routing
@@ -53,11 +53,11 @@ Open `http://localhost:3000`.
 npm run ci
 ```
 
-`npm run ci` runs linting, deterministic engine assertions, source-integrity checks, TypeScript validation, and a production build. `npm run preflight` begins from the committed lockfile and reproduces the clean-install CI path.
+`npm run ci` runs linting, 15 deterministic/source assertions, TypeScript validation, and a production build. Separately, the prototype exposes 24/24 passing behavioral transformations across six synthetic cases. `npm run preflight` begins from the committed lockfile and reproduces the clean-install CI path.
 
 ## Deploy
 
-Production: [proofpair-prototype.vercel.app](https://proofpair-prototype.vercel.app/)
+Production: [proofpair-amex.vercel.app](https://proofpair-amex.vercel.app/)
 
 This is a standard Next.js application with a pinned Node major and a committed lockfile. Vercel is configured to install with `npm ci` and build with the same command used in CI.
 
@@ -65,21 +65,26 @@ See [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) for the release gate, first-time Ve
 
 ## Architecture
 
-```mermaid
-flowchart LR
-    A[Local evidence intake] --> B[Evidence normalizer]
-    B --> C[Provenance-aware evidence record]
-    C --> D[Two-sided evidence review]
-    D --> E[Deterministic rule evaluation]
-    E --> F[Fairness lab]
-    E --> G[Decision receipt]
-    E --> H[Specialist escalation]
-```
+![ProofPair product map](docs/visuals/proofpair-product-map.svg)
+
+The visual pack also contains [structural wireframes](docs/visuals/proofpair-wireframes.svg), the [end-to-end resolution flow](docs/visuals/dispute-resolution-flow.svg), the [four-gate decision path](docs/visuals/decision-control-flow.svg), and an explicitly labelled [production event-flow target](docs/visuals/production-event-flow.svg).
 
 The adjudication path is deterministic. A future OCR or language-model adapter may organize unstructured evidence, but it must not bypass the rule trace or execute account actions.
 
 ## Truth boundary
 
-Implemented: client-side workflow state, synthetic dataset, deterministic engine, local file normalization, queue operations, evidence inspection, controlled message queue, four fairness transformations, scenario simulation, exports, and printable receipt.
+Implemented: client-side workflow state, synthetic dataset, deterministic engine, verified-evidence completeness, governed signal weights, resolved/unresolved contradiction gates, local file normalization, queue operations, evidence inspection, controlled message queue, four behavioral transformations, scenario simulation, exports, and printable receipt.
 
 Not implemented: persistence beyond the active browser session, authentication, OCR, production policy coverage, calibrated confidence, external audit anchoring, outbound communications, or AMEX integrations.
+
+## Submission pack
+
+- [Paste-ready project description](docs/submission/project-description.md)
+- [Technical truth pack](docs/submission/technical-truth-pack.md)
+- [Architecture, stack and scale plan](docs/submission/architecture-and-scale.md)
+- [80-second silent demo storyboard](docs/submission/demo-storyboard.md)
+- [Screenshot captions](docs/submission/screenshot-captions.md)
+- [Final consistency gate](docs/submission/final-consistency-checklist.md)
+- [Verification report](docs/submission/verification-report.md)
+- [Release manifest](docs/submission/release-manifest.md)
+- [Primary source list](docs/submission/sources.md)

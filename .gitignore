@@ -38,3 +38,7 @@ next-env.d.ts
 /dist/
 /outputs/
 /work/
+/tmp/
+
+# Capture output is promoted only after final-build visual verification.
+/docs/screenshots/

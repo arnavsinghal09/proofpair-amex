@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">ProofPair production architecture and event flow</title>
+  <desc id="desc">A production-target architecture showing synchronous analyst reads, asynchronous evidence processing, authoritative data, event correctness and authority controls.</desc>
+  <defs>
+    <style>
+      .bg{fill:#fff}.navy{fill:#002663}.blue{fill:#016fd0}.pale{fill:#e8f2fb}.gray{fill:#f1f2f4}.amber{fill:#fff2d8}.red{fill:#fde7e7}
+      .line{stroke:#002663;stroke-width:3;fill:none}.soft{stroke:#98a2ad;stroke-width:2;fill:none}.event{stroke:#c77a00;stroke-width:3;fill:none}
+      .t{font-family:"Helvetica Neue",Arial,sans-serif;fill:#002663}.white{fill:#fff}.muted{fill:#4d4f53}
+      .k{font-size:18px;font-weight:700;letter-spacing:3px}.h{font-family:Georgia,serif;font-size:40px;font-weight:700}.n{font-size:18px;font-weight:700}.b{font-size:14px}.cap{font-size:13px;font-weight:700;letter-spacing:1.3px}
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#002663"/></marker>
+    <marker id="eventarrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#c77a00"/></marker>
+  </defs>
+  <rect class="bg" width="1600" height="900"/>
+  <text class="t k" x="70" y="58">PRODUCTION TARGET · DISTRIBUTED RESOLUTION CONTROL PLANE</text>
+  <text class="t h" x="70" y="110">Fast analyst reads over a replayable, case-ordered event backbone</text>
+  <line class="line" x1="70" y1="138" x2="1530" y2="138"/>
+
+  <rect class="navy" x="70" y="172" width="1460" height="64"/>
+  <text class="t white cap" x="95" y="199">SECURITY + AUTHORITY PLANE</text>
+  <text class="t white b" x="390" y="205">OIDC · entitlements · request signing · KMS/HSM policy signatures · dual control · external audit digest</text>
+
+  <text class="t cap" x="70" y="290">SYNCHRONOUS ANALYST PATH</text>
+  <rect class="pale" x="70" y="312" width="230" height="82"/><text class="t n" x="95" y="348">Analyst UI</text><text class="t b muted" x="95" y="374">Case and decision surfaces</text>
+  <rect class="pale" x="355" y="312" width="230" height="82"/><text class="t n" x="380" y="348">API gateway</text><text class="t b muted" x="380" y="374">Auth · rate · idempotency</text>
+  <rect class="pale" x="640" y="312" width="260" height="82"/><text class="t n" x="665" y="348">Case read model</text><text class="t b muted" x="665" y="374">Evidence + recommendation</text>
+  <rect class="blue" x="955" y="312" width="260" height="82"/><text class="t white n" x="980" y="348">Version-aware cache</text><text class="t white b" x="980" y="374">Invalidate on case/rule change</text>
+  <rect class="navy" x="1270" y="312" width="260" height="82"/><text class="t white n" x="1295" y="348">Receipt + audit view</text><text class="t white b" x="1295" y="374">Replayable rationale</text>
+  <path class="line" marker-end="url(#arrow)" d="M300 353 H347"/><path class="line" marker-end="url(#arrow)" d="M585 353 H632"/>
+  <path class="line" marker-end="url(#arrow)" d="M900 353 H947"/><path class="line" marker-end="url(#arrow)" d="M1215 353 H1262"/>
+
+  <text class="t cap" x="70" y="462">ASYNCHRONOUS EVIDENCE + POLICY PATH</text>
+  <rect class="amber" x="70" y="484" width="180" height="78"/><text class="t n" x="95" y="518">Intake</text><text class="t b muted" x="95" y="544">Encrypted original</text>
+  <rect class="amber" x="290" y="484" width="180" height="78"/><text class="t n" x="315" y="518">Extraction</text><text class="t b muted" x="315" y="544">No outcome authority</text>
+  <rect class="amber" x="510" y="484" width="180" height="78"/><text class="t n" x="535" y="518">Validation</text><text class="t b muted" x="535" y="544">Schema + provenance</text>
+  <rect class="amber" x="730" y="484" width="190" height="78"/><text class="t n" x="755" y="518">Contradiction</text><text class="t b muted" x="755" y="544">Resolved or routed</text>
+  <rect class="pale" x="960" y="484" width="190" height="78"/><text class="t n" x="985" y="518">Policy executor</text><text class="t b muted" x="985" y="544">Version-pinned</text>
+  <rect class="navy" x="1190" y="484" width="160" height="78"/><text class="t white n" x="1215" y="518">Receipt</text><text class="t white b" x="1215" y="544">Evidence trace</text>
+  <rect class="red" x="1390" y="484" width="140" height="78"/><text class="t n" x="1415" y="518">Route</text><text class="t b muted" x="1415" y="544">Specialist</text>
+  <path class="event" marker-end="url(#eventarrow)" d="M250 523 H282"/><path class="event" marker-end="url(#eventarrow)" d="M470 523 H502"/>
+  <path class="event" marker-end="url(#eventarrow)" d="M690 523 H722"/><path class="event" marker-end="url(#eventarrow)" d="M920 523 H952"/>
+  <path class="event" marker-end="url(#eventarrow)" d="M1150 523 H1182"/><path class="event" marker-end="url(#eventarrow)" d="M1350 523 H1382"/>
+
+  <rect class="gray" x="70" y="630" width="1460" height="168"/>
+  <text class="t cap" x="95" y="664">AUTHORITATIVE DATA + EVENT CORRECTNESS</text>
+  <rect class="navy" x="95" y="690" width="210" height="76"/><text class="t white n" x="120" y="721">PostgreSQL</text><text class="t white b" x="120" y="746">Case + evaluation + outbox</text>
+  <rect class="amber" x="355" y="690" width="210" height="76"/><text class="t n" x="380" y="721">Outbox relay</text><text class="t b muted" x="380" y="746">No dual-write loss</text>
+  <rect class="amber" x="615" y="690" width="210" height="76"/><text class="t n" x="640" y="721">Case partition</text><text class="t b muted" x="640" y="746">Per-case ordering</text>
+  <rect class="pale" x="875" y="690" width="210" height="76"/><text class="t n" x="900" y="721">Idempotent consumer</text><text class="t b muted" x="900" y="746">Effectively-once effect</text>
+  <rect class="pale" x="1135" y="690" width="170" height="76"/><text class="t n" x="1160" y="721">Replay / DLQ</text><text class="t b muted" x="1160" y="746">Recoverable failure</text>
+  <rect class="navy" x="1355" y="690" width="150" height="76"/><text class="t white n" x="1380" y="721">Digest</text><text class="t white b" x="1380" y="746">Tamper evidence</text>
+  <path class="line" marker-end="url(#arrow)" d="M305 728 H347"/><path class="line" marker-end="url(#arrow)" d="M565 728 H607"/>
+  <path class="line" marker-end="url(#arrow)" d="M825 728 H867"/><path class="line" marker-end="url(#arrow)" d="M1085 728 H1127"/>
+  <path class="line" marker-end="url(#arrow)" d="M1305 728 H1347"/>
+
+  <text class="t b muted" x="70" y="850">Technology families are an architectural blueprint, not a claim of current AMEX connectivity or measured production performance.</text>
+</svg>

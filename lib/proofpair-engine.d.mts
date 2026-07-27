@@ -29,11 +29,21 @@ export interface Evaluation {
   caseId: string;
   code: string;
   outcome: "member_win" | "merchant_win" | "human_escalation";
-  confidence: number;
   memberScore: number;
   merchantScore: number;
+  scoreGap: number;
+  minScoreGap: number;
   missing: string[];
-  contradictions: Array<{ id: string; severity: string; label: string }>;
+  contradictions: Array<{
+    id: string;
+    severity: string;
+    label: string;
+    status: "resolved_by_policy" | "unresolved";
+    requiresReview: boolean;
+    resolution: string;
+    evidenceIds: string[];
+  }>;
+  unresolvedContradictions: string[];
   checks: Record<string, boolean>;
   rationale: string;
   decisiveEvidence: string[];
@@ -47,11 +57,13 @@ export const REASON_CODES: Record<string, {
   accent: string;
   required: string[];
   decisive: string[];
+  signalWeights: Record<string, number>;
+  minScoreGap: number;
   deadlineDays: number;
 }>;
 export const CASES: DisputeCase[];
 export function evaluateCase(inputCase: DisputeCase): Evaluation;
-export function detectContradictions(inputCase: DisputeCase): Array<{ id: string; severity: string; label: string }>;
+export function detectContradictions(inputCase: DisputeCase): Evaluation["contradictions"];
 export function runFairnessSuite(inputCase: DisputeCase): Array<{
   id: string;
   name: string;

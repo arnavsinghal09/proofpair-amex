@@ -45,7 +45,7 @@ const INITIAL_OPERATIONS = Object.fromEntries(
     tasks: {
       identity: true,
       evidence: evaluateCase(item).checks.requiredEvidenceComplete,
-      contradictions: evaluateCase(item).checks.contradictionReviewed,
+      contradictions: evaluateCase(item).checks.contradictionGatePassed,
       decision: false,
     },
   }]),
@@ -467,7 +467,7 @@ function DisputeQueue({
       <section className="queue-controlbar">
         <label>
           <Icon name="search" />
-          <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Filter this queue" />
+          <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Filter this queue" aria-label="Filter dispute queue" />
         </label>
         <div className="view-tabs" aria-label="Saved queue views">
           {(["All open", "Due today", "Evidence gap", "Specialist review"] as QueueFilter[]).map((name) => (
@@ -514,8 +514,8 @@ function DisputeQueue({
             <span>{bulkMode === "assign" ? "ASSIGN SELECTED CASES" : bulkMode === "priority" ? "CHANGE PRIORITY" : "SPECIALIST ROUTING"}</span>
             <strong>{selected.length} case{selected.length > 1 ? "s" : ""} will be updated</strong>
           </div>
-          {bulkMode === "assign" && <select value={bulkValue} onChange={(event) => setBulkValue(event.target.value)}>{ANALYSTS.map((name) => <option key={name}>{name}</option>)}</select>}
-          {bulkMode === "priority" && <select value={bulkValue} onChange={(event) => setBulkValue(event.target.value)}>{(["P1 · At risk", "P2 · Standard", "P3 · Monitor"] as const).map((name) => <option key={name}>{name}</option>)}</select>}
+          {bulkMode === "assign" && <select value={bulkValue} onChange={(event) => setBulkValue(event.target.value)} aria-label="Bulk assignment owner">{ANALYSTS.map((name) => <option key={name}>{name}</option>)}</select>}
+          {bulkMode === "priority" && <select value={bulkValue} onChange={(event) => setBulkValue(event.target.value)} aria-label="Bulk priority">{(["P1 · At risk", "P2 · Standard", "P3 · Monitor"] as const).map((name) => <option key={name}>{name}</option>)}</select>}
           {bulkMode === "route" && <p>Routing preserves the configured recommendation but transfers authority to the specialist queue.</p>}
           <button className="button secondary" onClick={() => setBulkMode(null)}>Cancel</button>
           <button className="button primary" onClick={applyBulkAction}>Apply update</button>
@@ -685,9 +685,11 @@ function CaseOverview({
           ) : <p className="editorial-copy">{operations.narrative}</p>}
           {result.contradictions.length > 0 && (
             <div className="conflict-register">
-              <span>CONFLICT {result.contradictions[0].severity.toUpperCase()}</span>
+              <span>
+                CONFLICT {result.contradictions[0].requiresReview ? "UNRESOLVED" : "RESOLVED"} · {result.contradictions[0].severity.toUpperCase()}
+              </span>
               <strong>{result.contradictions[0].label}</strong>
-              <p>Resolve the inconsistency or document why specialist escalation is the safer path.</p>
+              <p>{result.contradictions[0].resolution}</p>
               <button onClick={() => setTab("evidence")}>Inspect conflicting records <Icon name="arrow" /></button>
             </div>
           )}
@@ -763,6 +765,40 @@ function EvidenceRoom({ item, result, addEvidence, setTab }: { item: DisputeCase
   const rule = REASON_CODES[item.code];
   const [selectedEvidence, setSelectedEvidence] = useState<Evidence | null>(null);
   const [reviewedEvidence, setReviewedEvidence] = useState<string[]>([]);
+  const nextControl = !result.checks.deadlineEligible
+    ? {
+        title: "Route for policy exception review",
+        detail: "The case is outside the configured reason-pack window and cannot clear the standard path.",
+        label: "Inspect control failure",
+        tab: "decision" as CaseTab,
+      }
+    : result.missing.length
+    ? {
+        title: "Request missing required evidence",
+        detail: `${result.missing.map(humanize).join(", ")} must be supplied as a verified record.`,
+        label: "Draft evidence request",
+        tab: "communications" as CaseTab,
+      }
+    : !result.checks.decisiveEvidencePresent
+      ? {
+          title: "Request a decisive record",
+          detail: `${rule.decisive.map(humanize).join(", ")} can establish sufficient support for this reason pack.`,
+          label: "Draft evidence request",
+          tab: "communications" as CaseTab,
+        }
+      : result.unresolvedContradictions.length
+        ? {
+            title: "Resolve the open contradiction",
+            detail: "The decision studio names the conflicting records and preserves the specialist route.",
+            label: "Inspect control failure",
+            tab: "decision" as CaseTab,
+          }
+        : {
+            title: "Evidence record is review-ready",
+            detail: "Move to the decision studio to inspect the complete policy trace.",
+            label: "Open decision studio",
+            tab: "decision" as CaseTab,
+          };
   const groups = [
     { id: "neutral", label: "SHARED / NETWORK RECORD", entries: item.evidence.filter((entry) => entry.supports === "neutral") },
     { id: "member", label: `CARD MEMBER · ${item.member.toUpperCase()}`, entries: item.evidence.filter((entry) => entry.supports === "member") },
@@ -772,7 +808,7 @@ function EvidenceRoom({ item, result, addEvidence, setTab }: { item: DisputeCase
   return (
     <div className="evidence-workspace">
       <div className="evidence-toolbar">
-        <div><span>EVIDENCE ROOM</span><strong>{item.evidence.length} records · {result.missing.length} required gaps · {result.contradictions.length} conflicts</strong></div>
+        <div><span>EVIDENCE ROOM</span><strong>{item.evidence.length} records · {result.missing.length} required gaps · {result.unresolvedContradictions.length} unresolved conflicts</strong></div>
         <label className="button primary upload-button">
           <input
             type="file"
@@ -810,13 +846,14 @@ function EvidenceRoom({ item, result, addEvidence, setTab }: { item: DisputeCase
           <section>
             <h2>REQUIREMENT COVERAGE</h2>
             {[...rule.required, ...rule.decisive].map((type) => {
-              const present = item.evidence.some((entry) => entry.type === type);
+              const verified = item.evidence.some((entry) => entry.type === type && entry.verified);
+              const submitted = item.evidence.some((entry) => entry.type === type);
               const required = rule.required.includes(type);
               return (
                 <div className="requirement-row" key={type}>
-                  <Icon name={present ? "check" : required ? "alert" : "minus"} />
+                  <Icon name={verified ? "check" : submitted || required ? "alert" : "minus"} />
                   <span><strong>{humanize(type)}</strong><small>{required ? "Required" : "Decisive when available"}</small></span>
-                  <b>{present ? "PRESENT" : required ? "MISSING" : "ABSENT"}</b>
+                  <b>{verified ? "VERIFIED" : submitted ? "UNVERIFIED" : required ? "MISSING" : "ABSENT"}</b>
                 </div>
               );
             })}
@@ -830,10 +867,10 @@ function EvidenceRoom({ item, result, addEvidence, setTab }: { item: DisputeCase
           </section>
           <section className="evidence-next">
             <span>NEXT CONTROL POINT</span>
-            <strong>{result.missing.length ? "Request missing evidence" : "Evidence record is review-ready"}</strong>
-            <p>{result.missing.length ? `${result.missing.map(humanize).join(", ")} must be supplied or explicitly waived.` : "Move to the decision studio to inspect the policy trace."}</p>
-            <button className="button primary" onClick={() => setTab(result.missing.length ? "communications" : "decision")}>
-              {result.missing.length ? "Draft evidence request" : "Open decision studio"} <Icon name="arrow" />
+            <strong>{nextControl.title}</strong>
+            <p>{nextControl.detail}</p>
+            <button className="button primary" onClick={() => setTab(nextControl.tab)}>
+              {nextControl.label} <Icon name="arrow" />
             </button>
           </section>
         </aside>
@@ -850,7 +887,9 @@ function EvidenceRoom({ item, result, addEvidence, setTab }: { item: DisputeCase
             <ControlLine label="Submitting source" value={humanize(selectedEvidence.source)} />
             <ControlLine label="Supports" value={humanize(selectedEvidence.supports)} />
             <ControlLine label="Verification" value={selectedEvidence.verified ? "Verified" : "Submitted"} />
-            <ControlLine label="Configured strength" value={`${Math.round(selectedEvidence.reliability * 100)} points`} />
+            <ControlLine label="Verification strength" value={`${Math.round(selectedEvidence.reliability * 100)}%`} />
+            <ControlLine label="Governed type weight" value={`${Math.round((rule.signalWeights[selectedEvidence.type] ?? 0.5) * 100)}%`} />
+            <ControlLine label="Ledger contribution" value={selectedEvidence.supports === "neutral" || !selectedEvidence.verified ? "Not scored" : `${Math.round(selectedEvidence.reliability * (rule.signalWeights[selectedEvidence.type] ?? 0.5) * 100)} points`} />
             <ControlLine label="Record identifier" value={selectedEvidence.id} />
           </div>
           <div className="panel-boundary"><Icon name="shield" /><p>Verification and strength are prototype metadata. No original document or external source system is connected.</p></div>
@@ -880,6 +919,7 @@ function DecisionStudio({ item, routed, route }: { item: DisputeCase; routed: bo
   const [receiptOpen, setReceiptOpen] = useState(false);
   const baseline = evaluateCase(item);
   const result = simulation ?? baseline;
+  const rule = REASON_CODES[item.code];
   const memberEvidence = item.evidence.filter((entry) => entry.supports === "member" && entry.verified);
   const merchantEvidence = item.evidence.filter((entry) => entry.supports === "merchant" && entry.verified);
   const requiredRecordId = item.evidence.find((entry) => REASON_CODES[item.code].required.includes(entry.type))?.id;
@@ -900,9 +940,9 @@ function DecisionStudio({ item, routed, route }: { item: DisputeCase; routed: bo
         <section className="module">
           <ModuleHeader kicker="EVIDENCE WEIGHT LEDGER" title="Every configured signal remains inspectable" />
           <div className="weight-ledger">
-            <EvidenceWeightColumn label="CARD MEMBER" entries={memberEvidence} />
+            <EvidenceWeightColumn label="CARD MEMBER" entries={memberEvidence} rule={rule} />
             <div className="weight-axis"><span>STRONGER VERIFIED RECORD</span><i /><b>VERSUS</b><i /></div>
-            <EvidenceWeightColumn label="MERCHANT" entries={merchantEvidence} />
+            <EvidenceWeightColumn label="MERCHANT" entries={merchantEvidence} rule={rule} />
           </div>
           <p className="method-note">Signal strength is a prototype rule input—not a calibrated probability. No demographic attribute is used in the configured path.</p>
         </section>
@@ -1161,7 +1201,7 @@ function Governance({ item, setCaseId }: { item: DisputeCase; setCaseId: (id: st
         eyebrow="MODEL & POLICY GOVERNANCE"
         title="Controls before automation"
         description="Version rule packs, test behavioral properties, preserve human authority, and expose every mocked integration."
-        actions={<select value={item.id} onChange={(event) => setCaseId(event.target.value)}>{CASES.map((entry) => <option value={entry.id} key={entry.id}>{entry.id} · {entry.code}</option>)}</select>}
+        actions={<select value={item.id} onChange={(event) => setCaseId(event.target.value)} aria-label="Behavioral assurance case">{CASES.map((entry) => <option value={entry.id} key={entry.id}>{entry.id} · {entry.code}</option>)}</select>}
       />
       <div className="governance-grid">
         <section className="module assurance-module">
@@ -1257,7 +1297,16 @@ function RecommendationPanel({
       <div>
         <ControlLine label="Required evidence" value={result.missing.length ? `${result.missing.length} missing` : "Complete"} />
         <ControlLine label="Policy deadline" value={result.checks.deadlineEligible ? "Eligible" : "Review"} />
-        <ControlLine label="Contradiction control" value={result.checks.contradictionReviewed ? "Passed" : "Review"} />
+        <ControlLine
+          label="Contradiction control"
+          value={
+            result.unresolvedContradictions.length
+              ? "Specialist route"
+              : result.contradictions.length
+                ? "Resolved by policy"
+                : "Clear"
+          }
+        />
       </div>
       <button className="button primary wide" onClick={() => setTab("decision")}>Open decision studio <Icon name="arrow" /></button>
       <button className="button secondary wide" disabled={routed} onClick={route}>{routed ? "Already in specialist queue" : "Route to specialist"}</button>
@@ -1413,12 +1462,46 @@ function EvidenceRecord({ evidence, decisive, reviewed, onInspect }: { evidence:
   );
 }
 
-function EvidenceWeightColumn({ label, entries }: { label: string; entries: Evidence[] }) {
-  return <div className="weight-column"><span>{label}</span>{entries.map((entry) => <div key={entry.id}><strong>{entry.label}</strong><i><b style={{ width: `${entry.reliability * 100}%` }} /></i><small>{Math.round(entry.reliability * 100)} configured points</small></div>)}</div>;
+function EvidenceWeightColumn({
+  label,
+  entries,
+  rule,
+}: {
+  label: string;
+  entries: Evidence[];
+  rule: (typeof REASON_CODES)[string];
+}) {
+  return (
+    <div className="weight-column">
+      <span>{label}</span>
+      {entries.map((entry) => {
+        const typeWeight = rule.signalWeights[entry.type] ?? 0.5;
+        const contribution = entry.reliability * typeWeight;
+        return (
+          <div key={entry.id}>
+            <strong>{entry.label}</strong>
+            <i><b style={{ width: `${contribution * 100}%` }} /></i>
+            <small>{Math.round(entry.reliability * 100)}% verification × {Math.round(typeWeight * 100)}% type weight = {Math.round(contribution * 100)} points</small>
+          </div>
+        );
+      })}
+    </div>
+  );
 }
 
 function EvidenceStatus({ result }: { result: Evaluation }) {
-  return <span className={result.missing.length ? "evidence-status gap" : "evidence-status ready"}><Icon name={result.missing.length ? "alert" : "check"} />{result.missing.length ? `${result.missing.length} required gap${result.missing.length > 1 ? "s" : ""}` : "Review-ready"}</span>;
+  const issue = !result.checks.deadlineEligible
+    ? "Policy exception"
+    : result.missing.length
+      ? `${result.missing.length} required gap${result.missing.length > 1 ? "s" : ""}`
+      : result.unresolvedContradictions.length
+        ? `${result.unresolvedContradictions.length} unresolved conflict${result.unresolvedContradictions.length > 1 ? "s" : ""}`
+        : !result.checks.decisiveEvidencePresent
+          ? "Decisive record needed"
+          : !result.checks.scoreGapPassed
+            ? "Insufficient separation"
+            : null;
+  return <span className={issue ? "evidence-status gap" : "evidence-status ready"}><Icon name={issue ? "alert" : "check"} />{issue ?? "Review-ready"}</span>;
 }
 
 function OutcomeLabel({ outcome }: { outcome: string }) {
@@ -1447,7 +1530,7 @@ function Timeline({ item = CASES[0], result = evaluateCase(CASES[0]), compact = 
     ["Case opened", `${item.member} filed a ${REASON_CODES[item.code].short.toLowerCase()} dispute`, `${item.ageDays} days ago`],
     ["Evidence normalized", `${item.evidence.length} records linked to their submitting source`, "2 days ago"],
     [result.contradictions.length ? "Conflict detected" : "Rule controls checked", result.contradictions[0]?.label ?? "No configured contradiction found", "Today · 10:06"],
-    ["Recommendation ready", `${formatOutcome(result.outcome)} under ${result.ruleVersion}`, "Today · 10:08"],
+    [result.outcome === "human_escalation" ? "Specialist route ready" : "Recommendation ready", `${formatOutcome(result.outcome)} under ${result.ruleVersion}`, "Today · 10:08"],
   ];
   return <div className={compact ? "timeline compact" : "timeline"}>{events.map(([name, detail, time]) => <div key={name}><i /><span><strong>{name}</strong><small>{detail}</small></span><time>{time}</time></div>)}</div>;
 }

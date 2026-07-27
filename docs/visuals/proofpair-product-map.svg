@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">ProofPair resolution operating system map</title>
+  <desc id="desc">A product map showing the command center, dispute queue, case workspace, evidence, decision, communications, audit, portfolio and governance surfaces.</desc>
+  <defs>
+    <style>
+      .bg{fill:#fff}.navy{fill:#002663}.blue{fill:#016fd0}.pale{fill:#e8f2fb}.gray{fill:#f1f2f4}.amber{fill:#fff2d8}
+      .line{stroke:#002663;stroke-width:3;fill:none}.softline{stroke:#98a2ad;stroke-width:2;fill:none}.dash{stroke:#016fd0;stroke-width:2;stroke-dasharray:8 8;fill:none}
+      .t{font-family:"Helvetica Neue",Arial,sans-serif;fill:#002663}.white{fill:#fff}.muted{fill:#4d4f53}
+      .k{font-size:18px;font-weight:700;letter-spacing:3px}.h{font-family:Georgia,serif;font-size:42px;font-weight:700}.n{font-size:25px;font-weight:700}.b{font-size:18px}.s{font-size:15px}.cap{font-size:14px;font-weight:700;letter-spacing:1.5px}
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#002663"/></marker>
+  </defs>
+  <rect class="bg" width="1600" height="900"/>
+  <text class="t k" x="80" y="68">PRODUCT SYSTEM MAP · WORKING PROTOTYPE</text>
+  <text class="t h" x="80" y="122">One operating system from case pressure to auditable resolution</text>
+  <line class="line" x1="80" y1="150" x2="1520" y2="150"/>
+
+  <rect class="navy" x="80" y="184" width="1440" height="108"/>
+  <text class="t white cap" x="110" y="218">PORTFOLIO CONTROL</text>
+  <text class="t white n" x="110" y="258">Command center</text>
+  <text class="t white b" x="390" y="227">Exposure and SLA pressure</text>
+  <text class="t white b" x="390" y="258">Evidence readiness</text>
+  <text class="t white b" x="720" y="227">Reason-code mix</text>
+  <text class="t white b" x="720" y="258">Specialist workload</text>
+  <text class="t white b" x="1025" y="227">24/24 behavioral checks</text>
+  <text class="t white b" x="1025" y="258">Policy registry health</text>
+
+  <rect class="pale" x="80" y="342" width="300" height="154"/>
+  <text class="t cap" x="110" y="378">01 · PRIORITIZE</text>
+  <text class="t n" x="110" y="420">Dispute queue</text>
+  <text class="t b muted" x="110" y="453">Filter · bulk route · assign</text>
+  <text class="t b muted" x="110" y="480">SLA and evidence-gap views</text>
+
+  <path class="line" marker-end="url(#arrow)" d="M380 419 H465"/>
+
+  <rect class="gray" x="480" y="326" width="640" height="186"/>
+  <text class="t cap" x="515" y="366">02 · UNDERSTAND</text>
+  <text class="t n" x="515" y="408">Case workspace</text>
+  <text class="t b muted" x="515" y="442">Narrative · transaction · party positions · chronology</text>
+  <text class="t b muted" x="515" y="473">Owner · priority · tasks · governed recommendation</text>
+
+  <path class="line" marker-end="url(#arrow)" d="M1120 419 H1205"/>
+
+  <rect class="navy" x="1220" y="342" width="300" height="154"/>
+  <text class="t white cap" x="1250" y="378">03 · AUTHORIZE</text>
+  <text class="t white n" x="1250" y="420">Decision receipt</text>
+  <text class="t white b" x="1250" y="453">Rationale · decisive records</text>
+  <text class="t white b" x="1250" y="480">Controls · rule version</text>
+
+  <path class="softline" d="M630 512 V575 H300 V616"/>
+  <path class="softline" d="M800 512 V616"/>
+  <path class="softline" d="M970 512 V575 H1300 V616"/>
+
+  <rect class="pale" x="80" y="616" width="440" height="146"/>
+  <text class="t cap" x="110" y="652">EVIDENCE ROOM</text>
+  <text class="t n" x="110" y="694">Two-sided evidence graph</text>
+  <text class="t b muted" x="110" y="727">Requirements · provenance · contradictions · inspection</text>
+
+  <rect class="amber" x="580" y="616" width="440" height="146"/>
+  <text class="t cap" x="610" y="652">DECISION STUDIO</text>
+  <text class="t n" x="610" y="694">Policy trace + counterfactuals</text>
+  <text class="t b muted" x="610" y="727">Signal ledger · gates · abstention · scenario challenge</text>
+
+  <rect class="gray" x="1080" y="616" width="440" height="146"/>
+  <text class="t cap" x="1110" y="652">CONTROLLED OPERATIONS</text>
+  <text class="t n" x="1110" y="694">Communications + audit</text>
+  <text class="t b muted" x="1110" y="727">Evidence requests · event history · exports · reopen trace</text>
+
+  <rect class="navy" x="80" y="810" width="1440" height="58"/>
+  <text class="t white cap" x="110" y="846">GOVERNANCE SPANS EVERY SURFACE</text>
+  <text class="t white b" x="560" y="846">Versioned reason packs · authority boundaries · behavioral assurance · human escalation</text>
+</svg>
