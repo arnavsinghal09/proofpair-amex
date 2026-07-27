@@ -1,7 +1,7 @@
 # ProofPair verification report
 
 Date: 27 July 2026  
-Scope: local release candidate before GitHub/Vercel publication
+Scope: published commit `7da93d7ba2aa4344f14c7c5869f91dc3bc44f255`
 
 ## Automated gate
 
@@ -13,9 +13,13 @@ Scope: local release candidate before GitHub/Vercel publication
 | TypeScript | Pass |
 | Next.js production build | Pass |
 | Static route generation | Pass (`/`, `/_not-found`) |
-| Dependency audit | Pending network-enabled GitHub CI |
+| GitHub Actions CI | Pass |
+| Vercel deployment status | Pass |
+| Production browser console | 0 warnings / 0 errors |
+| Desktop viewport | Pass at 1440×900 |
+| Mobile viewport | Pass at 390×844 |
 
-The local quality command completed with exit code 0 after the final engine and UI truth corrections.
+The repository quality command completed with exit code 0 after the final counterfactual correction. GitHub Actions passed on the same pushed SHA, and Vercel reported the matching deployment successful.
 
 ## Static interaction audit
 
@@ -49,11 +53,18 @@ The following 3200×1800 assets were rendered and inspected at original resoluti
 - four-gate deterministic decision flow
 - production-target event and service flow
 
-Final deployed-product screenshots and the screen recording remain release gates; pre-correction screenshots are explicitly excluded.
+Eighteen fresh production-browser screenshots were captured after the final deployment. The 87-second silent walkthrough was generated from those verified full-viewport states at 1920×1080.
 
-## Publication gates still requiring external access
+## Live workflow audit
 
-1. GitHub authentication must be refreshed before the local release commit can be written/pushed in the current environment.
-2. The final URL must be opened in a controllable browser for interaction, desktop/mobile layout, console, screenshot and recording verification.
-3. GitHub Actions must complete the network-enabled production dependency audit.
-4. Vercel must build the same pushed commit SHA and pass a signed-out smoke test.
+- Queue search, saved views, configurable columns and bulk assignment respond correctly.
+- The priority case opens into overview, evidence, decision, communications and audit surfaces.
+- Evidence inspection exposes source, supported party, verification strength, governed type weight and ledger contribution.
+- A local unverified upload remains excluded from requirements and scoring.
+- The receipt opens with the same policy and controls displayed by the decision studio.
+- Removing a required record fails the completeness gate.
+- Introducing a conflict now fails the contradiction gate while leaving baseline scores unchanged.
+- DP-20837 routes to a specialist because its custody contradiction is unresolved.
+- Two-sided communications switch the recipient correctly and remain explicitly local.
+- Governance selectors, policy history and notifications respond without console warnings or errors.
+- Desktop and mobile captures show no overlapping controls, clipped primary actions or unreadable status text.

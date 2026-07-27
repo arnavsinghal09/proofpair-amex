@@ -1,29 +1,32 @@
-# ProofPair 80-second silent demo storyboard
+# ProofPair 87-second silent product walkthrough
 
-The recording should be understandable with audio muted. Use 1920×1080, browser zoom 100%, pointer highlight on, and captions no smaller than 32 px. Record one clean take only after the deployed commit passes CI and browser smoke testing.
+The finished walkthrough is understandable with audio muted. It uses 1920×1080 frames made from verified production-browser captures, with a persistent evaluator-facing explanation panel. Every product state shown was exercised against the deployed commit before capture.
 
 | Time | Operator action | On-screen caption | Proof delivered |
 |---:|---|---|---|
-| 0–6 s | Land on Command Center; pause on queue health and SLA pressure | **One operating system for dispute pressure** | End-to-end product, not a single prompt |
-| 6–15 s | Open Disputes; search `DP-20841`; select the case | **Prioritize by evidence state, SLA and ownership** | Operational queue usability |
-| 15–25 s | Open Overview; move through narrative, transaction and two party positions | **One case file. Both parties visible.** | Two-sided case framing |
-| 25–39 s | Open Evidence; inspect carrier scan, fulfilment record and address comparison | **Every signal retains source, strength and provenance** | Evidence graph and contradiction visibility |
-| 39–53 s | Open Decision; point to required evidence, conflict status, score gap and signal ledger | **Four gates before any recommendation** | Deterministic control path |
-| 53–61 s | Open the receipt / export control | **Rationale + evidence IDs + policy context** | Explainability and audit artifact |
-| 61–71 s | Switch to `DP-20837`; show unresolved custody conflict and specialist route | **Ambiguity is routed—not hidden** | Fail-closed behavior |
-| 71–78 s | Open Governance; pause on 24/24 behavioral checks | **Test the behavior, not the polish** | Invariance, monotonicity, abstention, role swap |
-| 78–84 s | Return to Command Center or end slate | **ProofPair · faster when clear, human when not**<br>proofpair-amex.vercel.app | Product thesis and link |
+| Time | Verified state | Evaluator takeaway |
+|---:|---|---|
+| 0–5 s | Command center | Portfolio pressure, SLA exposure and 24/24 checks are visible before case detail. |
+| 5–10 s | Dispute queue | Evidence state, deadline, exposure, ownership and routing support real work management. |
+| 10–15 s | Case overview | Member, merchant, network facts, chronology and analyst controls share one case record. |
+| 15–24 s | Evidence room + inspector | Required/decisive/absent records, provenance and exact weighted contributions remain inspectable. |
+| 24–33 s | Decision studio + receipt | The recommendation exposes arithmetic, five policy gates, version and authority boundary. |
+| 33–43 s | Conflict + missing-record counterfactuals | An unresolved contradiction or missing verified record forces abstention. |
+| 43–48 s | DP-20837 specialist route | Strong evidence on both sides does not override unresolved custody ambiguity. |
+| 48–58 s | Communications + audit | Two-party evidence requests stay local; case and assurance events remain traceable. |
+| 58–67 s | Portfolio intelligence | Workload and routing are summarized without fake savings or accuracy claims. |
+| 67–77 s | Governance + policy change log | Six cases, four properties each, five versioned reason packs, and structural human authority. |
+| 77–82 s | Notifications | SLA and evidence alerts lead back to the relevant control surface. |
+| 82–87 s | Mobile command center + case | The information hierarchy and critical actions survive a 390×844 viewport. |
 
 ## Recording discipline
 
-- Do not scroll while a caption is changing.
-- Keep every hover purposeful; avoid circling the pointer.
-- Never show developer tools, localhost, editor windows, loading errors, or browser notifications.
-- Do not claim a message was sent; show that it entered the local outbound queue.
-- Do not call the output a final adjudication, probability, or account decision.
-- Do not show a broken or unverified deployment URL.
-- If a click path fails once, stop and restart the take rather than editing around the failure.
+- The product is always shown at its complete browser viewport; no product panel is selectively cropped.
+- The explanation rail never calls the output a final adjudication, probability or account decision.
+- Messaging is described as prototype-local and financial/account authority remains blocked.
+- Synthetic property checks are not represented as a production fairness or accuracy certification.
+- The public URL is shown only after GitHub CI and the matching Vercel deployment both passed.
 
 ## Fallback artifact
 
-If browser recording remains unavailable, submit the six verified screenshots with the captions in `screenshot-captions.md`. Do not relabel a slideshow as a live prototype recording.
+`proofpair-product-walkthrough.mp4` is the finished silent walkthrough. The 18 production-browser captures remain available independently for deck use and evaluator inspection.

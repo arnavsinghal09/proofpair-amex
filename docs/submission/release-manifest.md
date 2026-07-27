@@ -9,8 +9,8 @@
 
 ## Demonstration
 
-- `demo-storyboard.md` — 80-second muted recording path and capture discipline
-- `screenshot-captions.md` — six evaluator-facing captions
+- `demo-storyboard.md` — verified 87-second silent walkthrough path
+- `screenshot-captions.md` — 18 evaluator-facing captions
 - `../visuals/proofpair-product-map.svg`
 - `../visuals/proofpair-wireframes.svg`
 - `../visuals/dispute-resolution-flow.svg`
@@ -24,6 +24,10 @@
 - `final-consistency-checklist.md` — no-ship checklist for claims, prototype, visuals and upload
 - `../../docs/DEPLOYMENT.md` — reproducible GitHub/Vercel release playbook
 
-## Final capture placeholders
+## Final capture artifacts
 
-The release pack is not complete until it contains fresh screenshots from the deployed final commit and the approved silent recording. Older screenshots are excluded because their evidence-weight labels predate the corrected governed ledger.
+- `proofpair-product-walkthrough.mp4` — 1920×1080, 87-second silent walkthrough
+- `proofpair-walkthrough-contact-sheet.png` — six-frame visual QA sheet
+- `screenshots/` — 18 final production-browser captures, including desktop and mobile states
+
+All captures come from the deployed final commit after the contradiction-counterfactual correction. Older screenshots are excluded.
