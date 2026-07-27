@@ -28,10 +28,10 @@ After pushing:
 1. Confirm GitHub Actions reports a green **CI** workflow for the release commit.
 2. Confirm Vercel built the same commit SHA.
 3. Open the production URL in a signed-out browser.
-4. Open the priority sample from the dispute queue and complete the case review.
+4. Open the command center, move through the queue, and complete all five tabs of the priority case.
 5. Check desktop and narrow mobile widths.
 6. Confirm the browser console has no errors.
-7. Verify case switching, what-if reset behavior, decision-receipt printing, and all four assurance checks.
+7. Verify evidence upload, case switching, counterfactual reset behavior, controlled-message disclaimers, decision-receipt printing, and all four assurance checks.
 
 ## Why deployment is reproducible
 

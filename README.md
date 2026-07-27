@@ -6,14 +6,18 @@ It demonstrates how two-sided evidence can move through normalization, provenanc
 
 ## Product workflow
 
-ProofPair is designed for one primary user: a dispute analyst.
+ProofPair is an end-to-end operating environment for a dispute analyst, operations lead, and governance reviewer:
 
-1. Start in the dispute queue and prioritize by deadline or evidence state.
-2. Open a case and understand the claim in plain language.
-3. Compare card-member and merchant evidence side by side.
-4. Review the recommended next step or route ambiguity to a specialist.
+1. The **command center** surfaces SLA exposure, workload, recent activity, and decision-path health.
+2. The **dispute queue** supports saved views, search, bulk selection, ownership, evidence state, and routing.
+3. The **case workspace** combines the narrative, transaction facts, party positions, tasks, and chronology.
+4. The **evidence room** exposes requirement coverage, provenance, contradictions, and two-sided records.
+5. The **decision studio** makes every configured signal and policy check inspectable, with counterfactual testing.
+6. **Communications** supports controlled evidence requests while clearly remaining disconnected in the prototype.
+7. The **audit trail** records case events, behavioral checks, and explicit truth boundaries.
+8. **Portfolio intelligence** and **governance** expose synthetic workload patterns, rule packs, authority, and mocked integrations.
 
-Rule checks, counterfactuals, behavioral assurance, and technical implementation details are available through progressive disclosure instead of competing with the primary review task.
+The interface uses progressive disclosure to preserve a clear operating path without deleting expert controls.
 
 ## Prototype scope
 
@@ -24,7 +28,7 @@ Rule checks, counterfactuals, behavioral assurance, and technical implementation
 - Counterfactual scenario simulator
 - Four-test fairness lab, including role-swap symmetry
 - Decision receipt and reviewable in-session event history
-- Responsive queue, case review, assurance, and decision-receipt surfaces
+- Responsive command center, queue, five-tab case workspace, portfolio, governance, and printable receipt
 
 All case data and operating metrics are synthetic. The prototype has no AMEX, payment-rail, merchant, carrier, or account connection.
 

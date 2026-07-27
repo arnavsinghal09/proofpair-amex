@@ -17,24 +17,35 @@ test("uses the standard Next.js runtime with no prior-hosting markers", async ()
   assert.doesNotMatch(`${page}\n${layout}`, /chatgpt|codex-preview|signin-with-chatgpt/i);
 });
 
-test("keeps the analyst workflow focused, readable, and progressively disclosed", async () => {
+test("ships the complete analyst operating system with readable typography", async () => {
   const [page, styles, engine] = await Promise.all([
     readFile(new URL("app/page.tsx", root), "utf8"),
     readFile(new URL("app/globals.css", root), "utf8"),
     readFile(new URL("lib/proofpair-engine.mjs", root), "utf8"),
   ]);
-  assert.match(page, /Cases needing a decision/);
+  assert.match(page, /Resolution command center/);
+  assert.match(page, /Dispute queue/);
+  assert.match(page, /Case overview/);
+  assert.match(page, /Evidence room/);
+  assert.match(page, /Decision studio/);
+  assert.match(page, /Communications/);
+  assert.match(page, /Audit trail/);
+  assert.match(page, /Portfolio intelligence/);
+  assert.match(page, /Governance & controls/);
   assert.match(page, /What happened/);
-  assert.match(page, /Evidence from both parties/);
-  assert.match(page, /Recommended next step/);
-  assert.match(page, /Decision rules/);
-  assert.match(page, /How ProofPair stays accountable/);
+  assert.match(page, /Party positions/);
+  assert.match(page, /GOVERNED RECOMMENDATION/);
+  assert.match(page, /POLICY TRACE/);
+  assert.match(page, /BEHAVIORAL ASSURANCE/);
   assert.match(engine, /Role-swap symmetry/);
   assert.match(page, /Review decision receipt/);
-  assert.match(page, /data-label="Merchant \/ member"/);
-  assert.match(styles, /\.queue-head \{ display: none; \}/);
-  assert.match(styles, /\.app-shell:has\(\.modal-backdrop\)/);
-  assert.doesNotMatch(page, /Switch persona|Viewing as|90-second|home-hero|guided-shell/);
+  assert.match(styles, /--amex-blue:\s*#016fd0/);
+  assert.match(styles, /--amex-midnight:\s*#002663/);
+  assert.match(styles, /--abbey:\s*#4d4f53/);
+  assert.match(styles, /--serif:/);
+  assert.match(styles, /\.product-shell:has\(\.modal-backdrop\)/);
+  assert.doesNotMatch(styles, /border-radius:\s*(?:[3-9]|[1-9][0-9]+)px/);
+  assert.doesNotMatch(page, /Switch persona|Viewing as|90-second|home-hero|guided-shell|chatgpt/i);
   assert.doesNotMatch(styles, /font-size:\s*(?:[7-9]|10|11)px/);
 });
 
