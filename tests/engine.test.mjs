@@ -98,8 +98,13 @@ test("all four metamorphic properties pass across all six cases", () => {
 test("counterfactual simulator does not mutate the source case", () => {
   const source = structuredClone(CASES[0]);
   const simulated = simulateCase(CASES[0], { removeEvidenceId: "e4" });
+  const conflicted = simulateCase(CASES[0], { addContradiction: true });
   assert.deepEqual(CASES[0], source);
   assert.equal(simulated.caseId, CASES[0].id);
+  assert.equal(conflicted.outcome, "human_escalation");
+  assert.equal(conflicted.checks.contradictionGatePassed, false);
+  assert.equal(conflicted.memberScore, evaluateCase(CASES[0]).memberScore);
+  assert.equal(conflicted.merchantScore, evaluateCase(CASES[0]).merchantScore);
 });
 
 test("operations metrics reconcile to evaluated cases", () => {
